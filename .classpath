@@ -8,6 +8,7 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-14">
 		<attributes>
+			<attribute name="module" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
@@ -22,5 +23,39 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/bin/bootstrap.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/bin/commons-daemon.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/bin/tomcat-juli.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/annotations-api.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/catalina.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/catalina-ant.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/catalina-ha.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/catalina-storeconfig.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/catalina-tribes.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/ecj-4.12.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/el-api.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/jasper.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/jasper-el.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/jaspic-api.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/jsp-api.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/tomcat-api.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/tomcat-coyote.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/tomcat-dbcp.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/tomcat-i18n-cs.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/tomcat-i18n-de.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/tomcat-i18n-es.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/tomcat-i18n-fr.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/tomcat-i18n-ja.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/tomcat-i18n-ko.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/tomcat-i18n-pt-BR.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/tomcat-i18n-ru.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/tomcat-i18n-zh-CN.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/tomcat-jdbc.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/tomcat-jni.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/tomcat-util.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/tomcat-util-scan.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/tomcat-websocket.jar"/>
+	<classpathentry kind="lib" path="E:/UNITINS/Tópicos em programação I/apache-tomcat-9.0.22/lib/websocket-api.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
