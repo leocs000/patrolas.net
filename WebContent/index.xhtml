@@ -52,6 +52,12 @@
 					<h:message for="itCpf" style="color:red" />
 				</h:panelGroup>
 
+				<h:outputLabel value="Perfil:" />
+				<h:selectOneRadio value="#{usuarioController.entity.perfil}">
+					<f:selectItems value="#{usuarioController.listaPerfil}" var="obj"
+						itemLabel="#{obj.label}" />
+				</h:selectOneRadio>
+
 			</h:panelGrid>
 
 			<h:commandButton value="Incluir"
@@ -76,43 +82,6 @@
 				actionListener="#{usuarioController.limpar}">
 				<f:ajax execute="@this" render="@form" />
 			</h:commandButton>
-		</h:form>
-		<h:form id="formDataTable">
-			<h:dataTable style="" value="#{usuarioController.listaEntity}"
-				var="obj">
-				<h:column>
-					<f:facet name="header">Id</f:facet>
-					<h:outputLabel value="#{obj.id}" />
-				</h:column>
-
-				<h:column>
-					<f:facet name="header">Nome</f:facet>
-					<h:commandLink value="#{obj.nome}"
-						actionListener="#{usuarioController.editar(obj)}" />
-				</h:column>
-
-				<h:column>
-					<f:facet name="header">E-mail</f:facet>
-					<h:outputLabel value="#{obj.email}" />
-				</h:column>
-
-				<h:column>
-					<f:facet name="header">Senha</f:facet>
-					<h:outputLabel value="#{obj.senha}" />
-				</h:column>
-				<h:column>
-					<f:facet name="header">CPF</f:facet>
-					<h:outputLabel value="#{obj.cpf}" />
-				</h:column>
-
-
-				<h:column>
-					<f:facet name="header">Ação</f:facet>
-					<h:commandLink value="Apagar"
-						actionListener="#{usuarioController.excluir(obj)}" />
-				</h:column>
-
-			</h:dataTable>
 		</h:form>
 	</ui:define>
 </ui:composition>

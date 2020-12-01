@@ -1,15 +1,14 @@
 package net.patrolas.model;
 
-import java.time.LocalDate;
-
 public class Produto {
 	private Integer id;
 	private Integer codigo;
 	private String categoria;
 	private String fabricante;
 	private String modelo;
-	private LocalDate anoFabricacao;
-	private Boolean estoque;
+	private Integer anoFabricacao;	
+	private Double preco;
+	private Integer estoque;
 	
 	public Integer getId() {
 		return id;
@@ -41,16 +40,22 @@ public class Produto {
 	public void setModelo(String modelo) {
 		this.modelo = modelo;
 	}
-	public LocalDate getAnoFabricacao() {
+	public Integer getAnoFabricacao() {
 		return anoFabricacao;
 	}
-	public void setAnoFabricacao(LocalDate anoFabricacao) {
+	public void setAnoFabricacao(Integer anoFabricacao) {
 		this.anoFabricacao = anoFabricacao;
 	}
-	public Boolean getEstoque() {
+	public Double getPreco() {
+		return preco;
+	}
+	public void setPreco(Double preco) {
+		this.preco = preco;
+	}
+	public Integer getEstoque() {
 		return estoque;
 	}
-	public void setEstoque(Boolean estoque) {
+	public void setEstoque(Integer estoque) {
 		this.estoque = estoque;
 	}
 

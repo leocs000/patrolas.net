@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.patrolas.application.Util;
+import net.patrolas.model.Perfil;
 import net.patrolas.model.Usuario;
 
 public class UsuarioDAO implements DAO<Usuario> {
@@ -21,9 +22,9 @@ public class UsuarioDAO implements DAO<Usuario> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("INSERT INTO ");
 		sql.append("usuario ");
-		sql.append("	(nome, email, senha, cpf) ");
+		sql.append("	(nome, email, senha, cpf, perfil) ");
 		sql.append("VALUES ");
-		sql.append("	(?, ?, ?, ?) ");
+		sql.append("	(?, ?, ?, ?, ?) ");
 
 		PreparedStatement stat = null;
 		try {
@@ -32,6 +33,8 @@ public class UsuarioDAO implements DAO<Usuario> {
 			stat.setString(2, obj.getEmail());
 			stat.setString(3, Util.hash(obj.getEmail()+obj.getSenha()));
 			stat.setString(4, obj.getCpf());
+			stat.setObject(5, obj.getPerfil() == null ? null : obj.getPerfil().getId());
+			
 			stat.execute();
 
 			conn.commit();
@@ -79,7 +82,8 @@ public class UsuarioDAO implements DAO<Usuario> {
 		sql.append("  nome = ?, ");
 		sql.append("  email = ?, ");
 		sql.append("  senha = ?, ");
-		sql.append("  cpf = ? ");
+		sql.append("  cpf = ?, ");
+		sql.append("  perfil = ? ");
 		sql.append("WHERE ");
 		sql.append("  id = ? ");
 
@@ -91,7 +95,8 @@ public class UsuarioDAO implements DAO<Usuario> {
 			stat.setString(2, obj.getEmail());
 			stat.setString(3, obj.getSenha());
 			stat.setString(4, obj.getCpf());
-			stat.setInt(5, obj.getId());
+			stat.setObject(5, obj.getPerfil() == null ? null : obj.getPerfil().getId());
+			stat.setInt(6, obj.getId());
 
 			stat.execute();
 			// efetivando a transacao
@@ -151,7 +156,7 @@ public class UsuarioDAO implements DAO<Usuario> {
 
 		} catch (SQLException e) {
 
-			System.out.println("Erro ao realizar um comando sql de insert.");
+			System.out.println("Erro ao realizar um comando sql de Delete.");
 			e.printStackTrace();
 			// cancelando a transacao
 			try {
@@ -196,7 +201,8 @@ public class UsuarioDAO implements DAO<Usuario> {
 		sql.append("  u.nome, ");
 		sql.append("  u.email, ");
 		sql.append("  u.senha, ");
-		sql.append("  u.cpf ");
+		sql.append("  u.cpf, ");
+		sql.append("  u.perfil ");
 		sql.append("FROM  ");
 		sql.append("  usuario u ");
 		sql.append("ORDER BY u.nome ");
@@ -215,6 +221,7 @@ public class UsuarioDAO implements DAO<Usuario> {
 				usuario.setEmail(rs.getString("email"));
 				usuario.setSenha(rs.getString("senha"));
 				usuario.setCpf(rs.getString("cpf"));
+				usuario.setPerfil(Perfil.valueOf(rs.getInt("perfil")) == null ? null : Perfil.valueOf(rs.getInt("perfil")));
 
 				listaUsuario.add(usuario);
 			}
@@ -260,7 +267,8 @@ public class UsuarioDAO implements DAO<Usuario> {
 		sql.append("  u.nome, ");
 		sql.append("  u.email, ");
 		sql.append("  u.senha, ");
-		sql.append("  u.cpf ");
+		sql.append("  u.cpf, ");
+		sql.append("  u.perfil ");
 		sql.append("FROM  ");
 		sql.append("  usuario u ");
 		sql.append("WHERE u.id = ? ");
@@ -280,6 +288,7 @@ public class UsuarioDAO implements DAO<Usuario> {
 				usuario.setEmail(rs.getString("email"));
 				usuario.setSenha(rs.getString("senha"));
 				usuario.setCpf(rs.getString("cpf"));
+				usuario.setPerfil(Perfil.valueOf(rs.getInt("perfil")) == null ? null : Perfil.valueOf(rs.getInt("perfil")));
 			}
 
 		} catch (SQLException e) {
@@ -322,7 +331,8 @@ public class UsuarioDAO implements DAO<Usuario> {
 		sql.append("  u.nome, ");
 		sql.append("  u.email, ");
 		sql.append("  u.senha, ");
-		sql.append("  u.cpf ");
+		sql.append("  u.cpf, ");
+		sql.append("  u.perfil ");
 		sql.append("FROM  ");
 		sql.append("  usuario u ");
 		sql.append("WHERE ");
@@ -345,6 +355,7 @@ public class UsuarioDAO implements DAO<Usuario> {
 				usuario.setCpf(rs.getString("cpf"));
 				usuario.setEmail(rs.getString("email"));
 				usuario.setSenha(rs.getString("senha"));
+				usuario.setPerfil(Perfil.valueOf(rs.getInt("perfil")) == null ? null : Perfil.valueOf(rs.getInt("perfil")));
 			}
 
 		} catch (SQLException e) {
@@ -386,7 +397,8 @@ public class UsuarioDAO implements DAO<Usuario> {
 		sql.append("  u.nome, ");
 		sql.append("  u.email, ");
 		sql.append("  u.senha, ");
-		sql.append("  u.cpf ");
+		sql.append("  u.cpf, ");
+		sql.append("  u.perfil ");
 		sql.append("FROM  ");
 		sql.append("  usuario u ");
 		sql.append("WHERE ");
@@ -411,7 +423,9 @@ public class UsuarioDAO implements DAO<Usuario> {
 				usuario.setEmail(rs.getString("email"));
 				usuario.setSenha(rs.getString("senha"));
 				usuario.setCpf(rs.getString("cpf"));
-
+				usuario.setPerfil(Perfil.valueOf(rs.getInt("perfil")) == null ? null : Perfil.valueOf(rs.getInt("perfil")));
+				
+				
 				listaUsuario.add(usuario);
 			}
 

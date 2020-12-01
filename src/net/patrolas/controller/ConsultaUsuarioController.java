@@ -1,16 +1,25 @@
 package net.patrolas.controller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 
 import net.patrolas.application.Util;
 import net.patrolas.dao.UsuarioDAO;
 import net.patrolas.model.Usuario;
 
-public class ConsultaUsuarioController {
+@Named
+@ViewScoped
+public class ConsultaUsuarioController implements Serializable{
+	
+	private static final long serialVersionUID = 9004352094854931507L;
+
+	
 	private Integer tipoFiltro;
 	private String filtro;
 	private List<Usuario> listaUsuario;

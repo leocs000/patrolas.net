@@ -7,6 +7,8 @@ public class Usuario {
 	private String email;
 	private String senha;
 	private String cpf;
+	private Perfil perfil;
+	
 	
 	
 	public Integer getId() {
@@ -38,6 +40,12 @@ public class Usuario {
 	}
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+	public Perfil getPerfil() {
+		return perfil;
+	}
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
 	}
 	
 	@Override

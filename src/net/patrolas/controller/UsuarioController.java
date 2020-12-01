@@ -8,21 +8,20 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 import net.patrolas.dao.UsuarioDAO;
+import net.patrolas.model.Perfil;
 import net.patrolas.model.Usuario;
 
 @Named
 @ViewScoped
 public class UsuarioController extends Controller<Usuario> implements Serializable {
 
-	
-	
 	private static final long serialVersionUID = 2555206043530357044L;
 
 	public UsuarioController() {
 		super(new UsuarioDAO());
-		Flash flash =  FacesContext.getCurrentInstance().getExternalContext().getFlash();
+		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
 		flash.keep("usuarioFlash");
-		setEntity((Usuario)flash.get("usuarioFlash"));
+		setEntity((Usuario) flash.get("usuarioFlash"));
 	}
 
 	@Override
@@ -32,6 +31,8 @@ public class UsuarioController extends Controller<Usuario> implements Serializab
 		return entity;
 	}
 
-
+	public Perfil[] getListaPerfil() {
+		return Perfil.values();
 	}
 
+}

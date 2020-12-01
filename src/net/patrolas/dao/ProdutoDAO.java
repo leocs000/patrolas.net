@@ -1,7 +1,6 @@
 package net.patrolas.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,9 +19,9 @@ public class ProdutoDAO implements DAO<Produto> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("INSERT INTO ");
 		sql.append("produto ");
-		sql.append("  (codigo, categoria, fabricante, modelo, ano_fabricacao) ");
+		sql.append("  (codigo, categoria, fabricante, modelo, ano_fabricacao, preco, estoque) ");
 		sql.append("VALUES ");
-		sql.append("  ( ?, ?, ?, ?, ?) ");
+		sql.append("  ( ?, ?, ?, ?, ?, ?, ?) ");
 		PreparedStatement stat = null;
 
 		try {
@@ -31,12 +30,12 @@ public class ProdutoDAO implements DAO<Produto> {
 			stat.setString(2, obj.getCategoria());
 			stat.setString(3, obj.getFabricante());
 			stat.setString(4, obj.getModelo());
-			if (obj.getAnoFabricacao() != null)
-				stat.setDate(5, Date.valueOf(obj.getAnoFabricacao()));
-			else
-				stat.setDate(5, null);
-
-//			stat.setBoolean(6, obj.getEstoque());
+			stat.setInt(5, obj.getAnoFabricacao());
+			stat.setDouble(6, obj.getPreco());
+			stat.setInt(7, obj.getEstoque());
+			
+			
+		
 
 			stat.execute();
 			// efetivando a transacao
@@ -90,6 +89,7 @@ public class ProdutoDAO implements DAO<Produto> {
 		sql.append("  fabricante = ?, ");
 		sql.append("  modelo = ?, ");
 		sql.append("  ano_fabricacao = ?, ");
+		sql.append("  preco = ?, ");
 		sql.append("  estoque = ? ");
 		sql.append("WHERE ");
 		sql.append("  id = ? ");
@@ -102,12 +102,10 @@ public class ProdutoDAO implements DAO<Produto> {
 			stat.setString(2, obj.getCategoria());
 			stat.setString(3, obj.getFabricante());
 			stat.setString(4, obj.getModelo());
-			if (obj.getAnoFabricacao() != null)
-				stat.setDate(5, Date.valueOf(obj.getAnoFabricacao()));
-			else
-				stat.setDate(5, null);
-			stat.setBoolean(6, obj.getEstoque());
-			stat.setInt(7, obj.getId());
+			stat.setInt(5, obj.getAnoFabricacao());
+			stat.setDouble(6, obj.getPreco());
+			stat.setInt(7, obj.getEstoque());
+			stat.setInt(8, obj.getId());
 
 			stat.execute();
 			// efetivando a transacao
@@ -216,6 +214,7 @@ public class ProdutoDAO implements DAO<Produto> {
 		sql.append("  p.fabricante, ");
 		sql.append("  p.modelo, ");
 		sql.append("  p.ano_fabricacao, ");
+		sql.append("  p.preco, ");
 		sql.append("  p.estoque ");
 		sql.append("FROM  ");
 		sql.append("  produto p ");
@@ -235,9 +234,9 @@ public class ProdutoDAO implements DAO<Produto> {
 				produto.setCategoria(rs.getString("categoria"));
 				produto.setFabricante(rs.getString("fabricante"));
 				produto.setModelo(rs.getString("modelo"));
-				Date data = rs.getDate("ano_fabricacao");
-				produto.setAnoFabricacao(data == null ? null : data.toLocalDate());
-				produto.setEstoque(rs.getBoolean("estoque"));
+				produto.setAnoFabricacao(rs.getInt("ano_fabricacao"));
+				produto.setPreco(rs.getDouble("preco"));
+				produto.setEstoque(rs.getInt("estoque"));
 
 				listaProduto.add(produto);
 			}
@@ -285,6 +284,7 @@ public class ProdutoDAO implements DAO<Produto> {
 		sql.append("  p.fabricante, ");
 		sql.append("  p.modelo, ");
 		sql.append("  p.ano_fabricacao, ");
+		sql.append("  p.preco, ");
 		sql.append("  p.estoque ");
 		sql.append("FROM  ");
 		sql.append("  produto p ");
@@ -305,9 +305,9 @@ public class ProdutoDAO implements DAO<Produto> {
 				produto.setCategoria(rs.getString("categoria"));
 				produto.setFabricante(rs.getString("fabricante"));
 				produto.setModelo(rs.getString("modelo"));
-				Date data = rs.getDate("ano_fabricacao");
-				produto.setAnoFabricacao(data == null ? null : data.toLocalDate());
-				produto.setEstoque(rs.getBoolean("estoque"));
+				produto.setAnoFabricacao(rs.getInt("ano_fabricacao"));
+				produto.setPreco(rs.getDouble("preco"));
+				produto.setEstoque(rs.getInt("estoque"));
 			}
 
 		} catch (SQLException e) {
@@ -351,21 +351,23 @@ public class ProdutoDAO implements DAO<Produto> {
 		sql.append("  p.fabricante, ");
 		sql.append("  p.modelo, ");
 		sql.append("  p.ano_fabricacao, ");
+		sql.append("  p.preco, ");
 		sql.append("  p.estoque ");
 		sql.append("FROM  ");
 		sql.append("  produto p ");
 		sql.append("WHERE ");
 		sql.append("  upper(p.codigo) LIKE upper( ? ) ");
 		sql.append("  AND upper(p.fabricante) LIKE upper( ? ) ");
-		sql.append("ORDER BY p.nome ");
+		sql.append("ORDER BY p.fabricante ");
 
 		PreparedStatement stat = null;
 		try {
-
+			
 			stat = conn.prepareStatement(sql.toString());
+			
 			stat.setString(1, tipo == 1 ? "%" + filtro + "%" : "%");
 			stat.setString(2, tipo == 2 ? "%" + filtro + "%" : "%");
-
+			
 			ResultSet rs = stat.executeQuery();
 
 			while (rs.next()) {
@@ -376,9 +378,9 @@ public class ProdutoDAO implements DAO<Produto> {
 				produto.setCategoria(rs.getString("categoria"));
 				produto.setFabricante(rs.getString("fabricante"));
 				produto.setModelo(rs.getString("modelo"));
-				Date data = rs.getDate("ano_fabricacao");
-				produto.setAnoFabricacao(data == null ? null : data.toLocalDate());
-				produto.setEstoque(rs.getBoolean("estoque"));
+				produto.setAnoFabricacao(rs.getInt("ano_fabricacao"));
+				produto.setPreco(rs.getDouble("preco"));
+				produto.setEstoque(rs.getInt("estoque"));
 
 				listaProduto.add(produto);
 			}
@@ -424,6 +426,7 @@ public class ProdutoDAO implements DAO<Produto> {
 		sql.append("  p.fabricante, ");
 		sql.append("  p.modelo, ");
 		sql.append("  p.ano_fabricacao, ");
+		sql.append("  p.preco, ");
 		sql.append("  p.estoque ");
 		sql.append("FROM  ");
 		sql.append("  produto p ");
@@ -449,9 +452,9 @@ public class ProdutoDAO implements DAO<Produto> {
 				produto.setCategoria(rs.getString("categoria"));
 				produto.setFabricante(rs.getString("fabricante"));
 				produto.setModelo(rs.getString("modelo"));
-				Date data = rs.getDate("ano_fabricacao");
-				produto.setAnoFabricacao(data == null ? null : data.toLocalDate());
-				produto.setEstoque(rs.getBoolean("estoque"));
+				produto.setAnoFabricacao(rs.getInt("ano_fabricacao"));
+				produto.setPreco(rs.getDouble("preco"));
+				produto.setEstoque(rs.getInt("estoque"));
 
 				listaProduto.add(produto);
 			}

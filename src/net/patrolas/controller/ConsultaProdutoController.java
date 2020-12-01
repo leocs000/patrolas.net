@@ -1,5 +1,6 @@
 package net.patrolas.controller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,12 @@ import net.patrolas.dao.ProdutoDAO;
 import net.patrolas.model.Produto;
 @Named
 @ViewScoped
-public class ConsultaProdutoController {
+public class ConsultaProdutoController implements Serializable{
+	
+	
+	private static final long serialVersionUID = 3450109931228446801L;
+
+	
 	private Integer tipoFiltro;
 	private String filtro;
 	private List<Produto> listaProduto;
