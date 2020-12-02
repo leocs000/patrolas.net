@@ -34,11 +34,14 @@
 							<h:inputText class="form-control"
 								value="#{produtoController.entity.codigo}" />
 						</div>
-						<div class="form-group">
-							<h:outputLabel value="Categoria" />
-							<h:inputText class="form-control"
-								value="#{produtoController.entity.categoria}" />
-						</div>
+<!-- 						<div class="form-group"> -->
+<!-- 							<h:outputLabel value="Categoria" /> -->
+<!-- 							<h:selectOneMenu value="#{produtoController.entity.categoria}"> -->
+<!-- 								<f:selectItem itemLabel="Selecione ..." /> -->
+<!-- 								<f:selectItems value="#{categoriaController.listaEntity}" -->
+<!-- 								 var="categoria" itemLabel="categoria.categoria" itemValue="categoria.id"/> -->
+<!-- 							</h:selectOneMenu> -->
+<!-- 						</div> -->
 						<div class="form-group">
 							<div class="form-row">
 								<div class="form-group col-md-6">
@@ -66,7 +69,7 @@
 									<h:inputText class="form-control"
 										value="#{produtoController.entity.estoque}" />
 								</div>
-								
+
 							</div>
 							<div class="row">
 								<div class="form-group col-md-3">

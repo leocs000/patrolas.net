@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf">
+<ui:composition template="/template.xhtml">
+	<ui:define name="conteudo">
+
+		<h:messages errorStyle="color:red" warnStyle="color:orange"
+			infoStyle="color:green" globalOnly="false" />
+
+		<!-- Container -->
+		<div class="container-fluid">
+			<div class="row justify-content-md-center">
+				<div class="col-md-6 col-md-auto login-box">
+
+					<div class="form-row">
+						<div class="form-group col-md-2">
+							<h:form>
+								<!-- 								<h:commandLink value="voltar" -->
+								<!-- 									action="index.xhtml?faces-redirect=true" /> -->
+							</h:form>
+						</div>
+						<div class="form-group col-md-10">
+							<h1 class="text-center wdi-red">Cadastro de Categoria</h1>
+						</div>
+					</div>
+
+					<hr />
+					<h:form>
+						<div class="form-group">
+							<h:outputLabel value="Nova Categoria" />
+							<h:inputText class="form-control"
+								value="#{categoriaController.entity.categoria}" />
+						</div>
+
+						<div class="row">
+							<div class="form-group col-md-3">
+								<h:commandButton value="Incluir" style="width:100px"
+									class="btn btn-outline-primary"
+									disabled="#{categoriaController.entity.id != null}"
+									actionListener="#{categoriaController.incluir}" />
+							</div>
+
+							<div class="form-group col-md-3">
+								<h:commandButton value="Limpar" style="width:100px"
+									class="btn btn-outline-primary"
+									actionListener="#{categoriaController.limpar}">
+									<f:ajax execute="@this" render="@form" />
+								</h:commandButton>
+							</div>
+						</div>
+					</h:form>
+					<h:form id="formDataTable">
+						<h:dataTable id="dataTable"
+							class="table table-striped table-hover"
+							value="#{ConsultaCategoriaController.listaCategoria}" var="obj">
+
+							<h:column>
+								<f:facet name="header">Categoria</f:facet>
+								<h:outputLabel value="#{obj.categoria}" />
+							</h:column>
+							<h:column>
+								<f:facet name="header">Ação</f:facet>
+								<h:commandLink value="Editar"
+									action="#{consultaProdutoController.editar(obj)}" />
+							</h:column>
+						</h:dataTable>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

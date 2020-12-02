@@ -15,6 +15,8 @@ import net.patrolas.model.Produto;
 public class ProdutoController extends Controller<Produto> implements Serializable{
 	
 	private static final long serialVersionUID = -2345407772675191845L;
+	
+//	priOate List<Categoria> listaCategoria;
 
 	public ProdutoController() {
 		super(new ProdutoDAO());
@@ -29,5 +31,32 @@ public class ProdutoController extends Controller<Produto> implements Serializab
 			entity = new Produto();
 		return entity;
 	}
+	
+//	public void obterListaCategoria() {
+//		CategoriaDAO dao = new CategoriaDAO();
+//		try {
+//			setListaCategoria(dao.obterTodos());
+//			for (Categoria categoria : listaCategoria) {
+//				System.out.println(categoria);
+//			}
+//		} catch (Exception e) {
+//			System.out.println("Erro ao pesquisar as categorias");
+//			e.printStackTrace();
+//			setListaCategoria(null);
+//		}
+//	}
+//
+//	public List<Categoria> getListaCategoria() {
+//		if(listaCategoria == null)
+//			listaCategoria = new ArrayList<Categoria>();
+//		obterListaCategoria();
+//		return listaCategoria;
+//	}
+//
+//	public void setListaCategoria(List<Categoria> listaCategoria) {
+//		this.listaCategoria = listaCategoria;
+//	}
+	
+	
 	
 }

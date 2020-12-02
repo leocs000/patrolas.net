@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
+import net.patrolas.application.Util;
 import net.patrolas.model.Categoria;
 
 public class CategoriaDAO implements DAO<Categoria> {
@@ -184,8 +186,59 @@ public class CategoriaDAO implements DAO<Categoria> {
 
 	@Override
 	public List<Categoria> obterTodos() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Exception exception = null;
+		Connection conn = DAO.getConnection();
+		List<Categoria> listaCategoria = new ArrayList<Categoria>();
+
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT ");
+		sql.append("  c.id, ");
+		sql.append("  c.categoria, ");
+		sql.append("FROM  ");
+		sql.append("  categoria c ");
+		sql.append("ORDER BY c.categoria ");
+
+		PreparedStatement stat = null;
+		try {
+
+			stat = conn.prepareStatement(sql.toString());
+
+			ResultSet rs = stat.executeQuery();
+
+			while (rs.next()) {
+				Categoria categoria = new Categoria();
+				categoria.setId(rs.getInt("id"));
+				categoria.setCategoria(rs.getString("categoria"));
+
+				listaCategoria.add(categoria);
+			}
+
+		} catch (SQLException e) {
+			Util.addErrorMessage("Não foi possivel buscar os dados do produto");
+			e.printStackTrace();
+			exception = new Exception("Erro ao executar um sql em ProdutoDAO.");
+		} finally {
+			try {
+				if (!stat.isClosed())
+					stat.close();
+			} catch (SQLException e) {
+				System.out.println("Erro ao fechar o Statement");
+				e.printStackTrace();
+			}
+
+			try {
+				if (!conn.isClosed())
+					conn.close();
+			} catch (SQLException e) {
+				System.out.println("Erro a o fechar a conexao com o banco.");
+				e.printStackTrace();
+			}
+		}
+
+		if (exception != null)
+			throw exception;
+
+		return listaCategoria;
 	}
 
 	@Override

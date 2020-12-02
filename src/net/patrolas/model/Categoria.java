@@ -3,7 +3,7 @@ package net.patrolas.model;
 public class Categoria {
 	
 	private Integer id;
-	private String Categoria;
+	private String categoria;
 	
 	
 	public Integer getId() {
@@ -13,9 +13,9 @@ public class Categoria {
 		this.id = id;
 	}
 	public String getCategoria() {
-		return Categoria;
+		return categoria;
 	}
 	public void setCategoria(String categoria) {
-		Categoria = categoria;
+		this.categoria = categoria;
 	}
 }
