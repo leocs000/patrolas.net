@@ -7,7 +7,7 @@ public class Usuario {
 	private String email;
 	private String senha;
 	private String cpf;
-	private Perfil perfil;
+	private Perfil perfil = Perfil.USUARIO;
 	
 	
 	

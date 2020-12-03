@@ -32,7 +32,6 @@ public enum Perfil {
 	public static Perfil valueOf(int id) {
 		for (Perfil perfil : values()) {
 			if (id == perfil.getId()) {
-				System.out.println(perfil);
 				return perfil;
 			}
 		}

@@ -30,7 +30,7 @@ public class CategoriaDAO implements DAO<Categoria> {
 			stat = conn.prepareStatement(sql.toString());
 			stat.setString(1, obj.getCategoria());
 			
-
+			System.out.println(stat);
 			stat.execute();
 			
 			// efetivando a transacao
@@ -193,7 +193,7 @@ public class CategoriaDAO implements DAO<Categoria> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT ");
 		sql.append("  c.id, ");
-		sql.append("  c.categoria, ");
+		sql.append("  c.categoria ");
 		sql.append("FROM  ");
 		sql.append("  categoria c ");
 		sql.append("ORDER BY c.categoria ");

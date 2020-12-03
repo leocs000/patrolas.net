@@ -10,6 +10,14 @@ public class Produto {
 	private Double preco;
 	private Integer estoque;
 	
+	public Produto() {
+		
+	}
+	
+	public Produto(Integer id) {
+		super();
+		this.id = id;
+	}
 	public Integer getId() {
 		return id;
 	}

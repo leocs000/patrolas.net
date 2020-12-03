@@ -27,7 +27,7 @@ public class ProdutoDAO implements DAO<Produto> {
 		try {
 			stat = conn.prepareStatement(sql.toString());
 			stat.setInt(1, obj.getCodigo());
-			stat.setString(2, obj.getCategoria());
+			stat.setInt(2, obj.getId());
 			stat.setString(3, obj.getFabricante());
 			stat.setString(4, obj.getModelo());
 			stat.setInt(5, obj.getAnoFabricacao());
@@ -433,8 +433,8 @@ public class ProdutoDAO implements DAO<Produto> {
 		sql.append("WHERE ");
 		sql.append("  upper(p.codigo) LIKE upper( ? ) ");
 		sql.append("  AND upper(p.fabricante) LIKE upper( ? ) ");
-		sql.append("  AND p.estoque = true ");
-		sql.append("ORDER BY p.nome ");
+		sql.append("  AND p.estoque > 0 ");
+		sql.append("ORDER BY p.fabricante ");
 
 		PreparedStatement stat = null;
 		try {
@@ -486,5 +486,5 @@ public class ProdutoDAO implements DAO<Produto> {
 
 		return listaProduto;
 	}
-
+	
 }

@@ -1,8 +1,6 @@
 package net.patrolas.controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
@@ -16,7 +14,6 @@ import net.patrolas.model.Categoria;
 @ViewScoped
 public class CategoriaController extends Controller<Categoria> implements Serializable{
 
-	private List<Categoria> listaCategoria;
 	
 	private static final long serialVersionUID = 5875132057190864222L;
 
@@ -33,18 +30,6 @@ public class CategoriaController extends Controller<Categoria> implements Serial
 		if(entity == null)
 			entity = new Categoria();
 		return entity;
-	}
-
-
-	public List<Categoria> getListaCategoria() {
-		if(listaCategoria == null)
-			listaCategoria = new ArrayList<Categoria>();
-		return listaCategoria;
-	}
-
-
-	public void setListaCategoria(List<Categoria> listaCategoria) {
-		this.listaCategoria = listaCategoria;
 	}
 	
 	
