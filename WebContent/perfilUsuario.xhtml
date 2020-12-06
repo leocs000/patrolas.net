@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+<ui:composition template="template.xhtml">
+
+	<ui:define name="menu">
+		<h1>Menu</h1>
+		<h:form>
+			<h:commandLink value="Login" action="login.xhtml?faces-redirect=true" />
+			<br />
+			<h:commandLink value="Cadastro de Produto"
+				action="Produto.xhtml?faces-redirect=true" />
+			<br />
+		</h:form>
+
+	</ui:define>
+
+
+	<ui:define name="conteudo">
+
+		<h:messages errorStyle="color:red" warnStyle="color:orange"
+			infoStyle="color:green" globalOnly="false" />
+
+		<!-- Container -->
+		<div class="container-fluid">
+			<div class="row justify-content-md-center">
+				<div class="col-md-6 col-md-auto login-box">
+					<h:messages styleClass="alert alert-danger hmessages" />
+					<div class="form-row">
+						<div class="form-group col-md-10">
+							<h1 class="text-center wdi-red">Dados Pessoais</h1>
+						</div>
+						<div class="form-group col-md-2">
+							<h:form>
+								<h:commandButton value="+ Usuario" class="btn btn-success"
+									actionListener="#{consultaUsuarioController.novoUsuario}" />
+							</h:form>
+						</div>
+					</div>
+
+					<hr />
+					<h:form id="formDataTable">
+						<div>
+							<h:panelGrid columns="1">
+								
+								<div>
+									<h:outputLabel value="Dados pessoais" />
+								</div>
+								<div>
+									<h:outputLabel value="Nome: " />
+									<h:outputLabel
+										value="#{perfilUsuarioController.usuarioLogado.nome}" />
+								</div>
+								<div>
+									<h:outputLabel value="CPF: " />
+									<h:outputLabel
+										value="#{perfilUsuarioController.usuarioLogado.cpf}" />
+								</div>
+								<div>
+									<h:outputLabel value="Segurança" />
+								</div>
+								<div>
+									<h:outputLabel value="E-mail: " />
+									<h:outputLabel
+										value="#{perfilUsuarioController.usuarioLogado.email}" />
+								</div>
+								<div>
+									<h:outputLabel value="Senha: " />
+									<h:outputLabel value="********" />
+								</div>
+
+							</h:panelGrid>
+						</div>
+					</h:form>
+				</div>
+			</div>
+		</div>
+
+	</ui:define>
+</ui:composition>
+</html>

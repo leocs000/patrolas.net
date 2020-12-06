@@ -3,15 +3,24 @@ package net.patrolas.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 public class Venda {
 	private Integer id;
 	private LocalDateTime data;
+	
+	@NotNull
 	private Usuario usuario;
+	
+	@NotNull
 	private List<ItemVenda> listaItemVenda;
 	
-	//Falta implementar
 	public Double getTotalVenda() {
-		return 0.0;
+		Double total = 0.0;
+		for (ItemVenda itemVenda : listaItemVenda) {
+			total += itemVenda.getPreco();
+		}
+		return total;
 	}
 	
 	

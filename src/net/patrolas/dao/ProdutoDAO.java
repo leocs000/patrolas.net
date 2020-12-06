@@ -27,7 +27,7 @@ public class ProdutoDAO implements DAO<Produto> {
 		try {
 			stat = conn.prepareStatement(sql.toString());
 			stat.setInt(1, obj.getCodigo());
-			stat.setInt(2, obj.getId());
+			stat.setInt(2, obj.getCategoria().getId());
 			stat.setString(3, obj.getFabricante());
 			stat.setString(4, obj.getModelo());
 			stat.setInt(5, obj.getAnoFabricacao());
@@ -99,7 +99,7 @@ public class ProdutoDAO implements DAO<Produto> {
 		try {
 			stat = conn.prepareStatement(sql.toString());
 			stat.setInt(1, obj.getCodigo());
-			stat.setString(2, obj.getCategoria());
+			stat.setInt(2, obj.getCategoria().getId());
 			stat.setString(3, obj.getFabricante());
 			stat.setString(4, obj.getModelo());
 			stat.setInt(5, obj.getAnoFabricacao());
@@ -231,7 +231,7 @@ public class ProdutoDAO implements DAO<Produto> {
 				Produto produto = new Produto();
 				produto.setId(rs.getInt("id"));
 				produto.setCodigo(rs.getInt("codigo"));
-				produto.setCategoria(rs.getString("categoria"));
+				produto.getCategoria().setId(rs.getInt("categoria"));
 				produto.setFabricante(rs.getString("fabricante"));
 				produto.setModelo(rs.getString("modelo"));
 				produto.setAnoFabricacao(rs.getInt("ano_fabricacao"));
@@ -302,7 +302,7 @@ public class ProdutoDAO implements DAO<Produto> {
 				produto = new Produto();
 				produto.setId(rs.getInt("id"));
 				produto.setCodigo(rs.getInt("codigo"));
-				produto.setCategoria(rs.getString("categoria"));
+				produto.getCategoria().setId(rs.getInt("categoria"));
 				produto.setFabricante(rs.getString("fabricante"));
 				produto.setModelo(rs.getString("modelo"));
 				produto.setAnoFabricacao(rs.getInt("ano_fabricacao"));
@@ -375,7 +375,7 @@ public class ProdutoDAO implements DAO<Produto> {
 				Produto produto = new Produto();
 				produto.setId(rs.getInt("id"));
 				produto.setCodigo(rs.getInt("codigo"));
-				produto.setCategoria(rs.getString("categoria"));
+				produto.getCategoria().setId(rs.getInt("categoria"));
 				produto.setFabricante(rs.getString("fabricante"));
 				produto.setModelo(rs.getString("modelo"));
 				produto.setAnoFabricacao(rs.getInt("ano_fabricacao"));
@@ -449,7 +449,7 @@ public class ProdutoDAO implements DAO<Produto> {
 				Produto produto = new Produto();
 				produto.setId(rs.getInt("id"));
 				produto.setCodigo(rs.getInt("codigo"));
-				produto.setCategoria(rs.getString("categoria"));
+				produto.getCategoria().setId(rs.getInt("categoria"));
 				produto.setFabricante(rs.getString("fabricante"));
 				produto.setModelo(rs.getString("modelo"));
 				produto.setAnoFabricacao(rs.getInt("ano_fabricacao"));

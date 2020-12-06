@@ -18,7 +18,7 @@ import net.patrolas.model.Venda;
 @ViewScoped
 public class CarrinhoController implements Serializable {
 
-	private static final long serialVersionUID = 7497255375854225836L;
+	private static final long serialVersionUID = -4322494578346655162L;
 
 	private Venda venda;
 

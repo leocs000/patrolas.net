@@ -1,11 +1,24 @@
 package net.patrolas.model;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class Usuario {
 	
 	private Integer id;
+	
+	@NotBlank(message = "Informe nome de usuario")
 	private String nome;
+	
+	@NotNull
 	private String email;
+	
+	@NotBlank(message = "Informe uma senha válida")
+	@Size(min = 3, max = 10, message = "A senha deve conter no mínimo 6 dígitos e maximo 10.")
 	private String senha;
+	
+	@NotBlank(message = "Informe o CPF")
 	private String cpf;
 	private Perfil perfil = Perfil.USUARIO;
 	

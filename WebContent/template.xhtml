@@ -1,7 +1,9 @@
 <!DOCTYPE HTML>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf">
 <h:head>
 	<meta charset="utf-8" name="viewport"
 		content="width=device-width, initial-scale=1"
@@ -15,14 +17,35 @@
 		<div class="box navbar header">
 			<h1>patrolas.net</h1>
 			<div>
-				<h:form rendered="#{templateController.usuarioLogado != null}">
+				<h:form rendered="#{templateController.usuarioLogado == null}">
+					<h:commandButton value="Entrar"
+						action="login.xhtml?faces-redirect=true" style="color:white" />
+					<h:commandButton value="Criar Conta"
+						action="cadSimplificado.xhtml?faces-redirect=true" style="color:white" />
+				</h:form>
+				<h:form rendered="#{templateController.adm}">
 					<h:outputLabel value="Olá #{templateController.usuarioLogado.nome}" />
+					<h:outputLabel value="Olá Administrador" />
+					<h:commandLink value=" (Sair)"
+						action="#{templateController.encerrarSessao}" style="color:white" />
+				</h:form>
+				<h:form rendered="#{templateController.func}">
+					<h:outputLabel value="Olá #{templateController.usuarioLogado.nome}" />
+					<h:selectOneMenu>
+						
+					</h:selectOneMenu>
+					<h:commandLink value=" (Sair)"
+						action="#{templateController.encerrarSessao}" style="color:white" />
+				</h:form>
+				<h:form rendered="#{templateController.usu}">
+					<h:outputLabel value="Olá #{templateController.usuarioLogado.nome}" />
+					<h:outputLabel value="Olá Usuario" />
 					<h:commandLink value=" (Sair)"
 						action="#{templateController.encerrarSessao}" style="color:white" />
 				</h:form>
 			</div>
 		</div>
-		<div class="box menu" >
+		<div class="box menu">
 			<ui:insert name="menu">
 				<h1>Menu</h1>
 				<h:form>
@@ -32,11 +55,11 @@
 					<h:commandLink value="Cadastro de Usuário"
 						action="index.xhtml?faces-redirect=true" />
 					<br />
-					<h:commandLink value="Cadastrar Produto" 
-						action="Produto.xhtml?faces-redirect=true"/>
+					<h:commandLink value="Cadastrar Produto"
+						action="Produto.xhtml?faces-redirect=true" />
 					<br />
-					<h:commandLink value="Consultar Produto" 
-						action="consultaProduto.xhtml?faces-redirect=true"/>
+					<h:commandLink value="Consultar Produto"
+						action="consultaProduto.xhtml?faces-redirect=true" />
 					<br />
 					<h:commandLink value="Contato" />
 					<br />

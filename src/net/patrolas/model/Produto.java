@@ -1,14 +1,29 @@
 package net.patrolas.model;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class Produto {
 	private Integer id;
+	
+	@NotBlank(message = "O código não pode ser nulo")
 	private Integer codigo;
-	private String categoria;
+	
+	@NotNull(message = "Escolha uma categoria")
+	private Categoria categoria;
+	
+	@NotBlank(message = "O Titulo não pode estar em branco")
+	@Size(min = 1, max = 100, message = "O titulo deve ter entre 1 e 100 caracteres")
+	private String titulo;
+	private String descriçao;
 	private String fabricante;
 	private String modelo;
 	private Integer anoFabricacao;	
+	
+	@NotNull(message = "Informe o preço")
 	private Double preco;
-	private Integer estoque;
+	private Integer estoque = 0;
 	
 	public Produto() {
 		
@@ -30,12 +45,30 @@ public class Produto {
 	public void setCodigo(Integer codigo) {
 		this.codigo = codigo;
 	}
-	public String getCategoria() {
+	public Categoria getCategoria() {
+		if(categoria == null)
+			categoria = new Categoria();
 		return categoria;
 	}
-	public void setCategoria(String categoria) {
+	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+
+	public String getDescriçao() {
+		return descriçao;
+	}
+
+	public void setDescriçao(String descriçao) {
+		this.descriçao = descriçao;
+	}
+
 	public String getFabricante() {
 		return fabricante;
 	}

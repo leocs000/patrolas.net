@@ -28,7 +28,7 @@ public class LoginController {
 			else {
 				// Usuario existe com as credenciais
 				Session.getInstance().setAttribute("usuarioLogado", usuarioLogado);
-				Util.redirect("usuario.xhtml");
+				Util.redirect("venda.xhtml");
 			}
 				
 		} catch (Exception e) {
@@ -46,5 +46,8 @@ public class LoginController {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
+
+	
+	
 
 }

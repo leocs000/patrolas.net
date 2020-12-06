@@ -16,8 +16,9 @@ import net.patrolas.model.Produto;
 @Named
 @ViewScoped
 public class VendaController implements Serializable {
-	
+
 	private static final long serialVersionUID = 5874765457553829169L;
+
 	
 	private Integer tipoFiltro;
 	private String filtro;

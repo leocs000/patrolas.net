@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
+import javax.faces.context.Flash;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -17,8 +19,8 @@ import net.patrolas.model.Venda;
 @ViewScoped
 public class HistoricoController implements Serializable {
 
-	private static final long serialVersionUID = 7004944252261185250L;
-	
+	private static final long serialVersionUID = 5861827169973356694L;
+
 	private List<Venda> listaVenda;
 
 	public List<Venda> getListaVenda() {
@@ -38,7 +40,9 @@ public class HistoricoController implements Serializable {
 	}
 	
 	public void detalhes(Venda venda) {
-		
+		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
+		flash.put("detalheFlash", venda);
+		Util.redirect("detalhesVenda.xhtml");
 	}
 
 	public void setListaVenda(List<Venda> listaVenda) {

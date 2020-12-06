@@ -50,8 +50,16 @@ public class ProdutoController extends Controller<Produto> implements Serializab
 //		}
 //	}
 	
-	public void pesquisar() {
+	
+		
+	
+	
+	public List<Categoria> getListaCategoria() {
+		if(listaCategoria == null)
+			listaCategoria = new ArrayList<Categoria>();
+		
 		CategoriaDAO dao = new CategoriaDAO();
+		
 		try {
 			
 			setListaCategoria(dao.obterTodos());
@@ -60,12 +68,7 @@ public class ProdutoController extends Controller<Produto> implements Serializab
 			e.printStackTrace();
 			setListaCategoria(null);
 		}
-	}
-	
-	public List<Categoria> getListaCategoria() {
-		if(listaCategoria == null)
-			listaCategoria = new ArrayList<Categoria>();
-		pesquisar();
+		
 		return listaCategoria;
 	}
 

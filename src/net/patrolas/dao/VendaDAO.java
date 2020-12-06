@@ -145,7 +145,7 @@ public class VendaDAO implements DAO<Venda> {
 		sql.append("SELECT ");
 		sql.append("  i.id, ");
 		sql.append("  i.preco, ");
-		sql.append("  i.id_midia ");
+		sql.append("  i.id_produto ");
 		sql.append("FROM  ");
 		sql.append(" item_venda i ");
 		sql.append("WHERE  ");
