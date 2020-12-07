@@ -93,7 +93,7 @@ public class UsuarioDAO implements DAO<Usuario> {
 			stat = conn.prepareStatement(sql.toString());
 			stat.setString(1, obj.getNome());
 			stat.setString(2, obj.getEmail());
-			stat.setString(3, obj.getSenha());
+			stat.setString(3, Util.hash(obj.getEmail()+obj.getSenha()));
 			stat.setString(4, obj.getCpf());
 			stat.setObject(5, obj.getPerfil() == null ? null : obj.getPerfil().getId());
 			stat.setInt(6, obj.getId());

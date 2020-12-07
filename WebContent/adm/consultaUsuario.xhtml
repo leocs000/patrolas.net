@@ -5,17 +5,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:jsf="http://xmlns.jcp.org/jsf">
 	
-<ui:composition template="template.xhtml">
-
-<ui:define name="menu">
-	<h1>Menu</h1>
-	<h:form>
-		<h:commandLink value="Login" action="login.xhtml?faces-redirect=true"/> <br/>
-		<h:commandLink value="Cadastro de Produto" action="Produto.xhtml?faces-redirect=true"/> <br/>
-	</h:form>
-
-</ui:define>
-
+<ui:composition template="../template.xhtml">
 
 <ui:define name="conteudo">
 
@@ -83,10 +73,6 @@
 							   <h:column >
 							      <f:facet name="header">Email</f:facet>
 							      <h:outputLabel value="#{obj.email}"/>
-							   </h:column>
-							   <h:column>
-							      <f:facet name="header">Senha</f:facet>
-							      <h:outputLabel value="#{obj.senha}"/>
 							   </h:column>
 							   <h:column>
 							      <f:facet name="header">CPF</f:facet>

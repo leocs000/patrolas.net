@@ -32,15 +32,25 @@
 						<div class="form-group">
 							<h:outputLabel value="Código" />
 							<h:inputText class="form-control"
-								value="#{produtoController.entity.codigo}" />
+								value="#{produtoController.entity.codigo}" required="true"
+								requiredMessage="Informe o código do produto." />
+								
+								
 						</div>
 						<div class="form-group">
 							<h:outputLabel value="Categoria" />
-							<h:selectOneMenu value="#{produtoController.entity.id}">
+							<h:selectOneMenu value="#{produtoController.entity.categoria.id}" 
+								required="true" requiredMessage="Informe a categoria.">
 								<f:selectItem itemLabel="Selecione ..." />
 								<f:selectItems value="#{produtoController.listaCategoria}"
-								 var="obj" itemLabel="#{obj.categoria}" itemValue="#{obj.id}"/>
+									var="obj" itemLabel="#{obj.categoria}" itemValue="#{obj.id}" />
 							</h:selectOneMenu>
+						</div>
+						<div class="form-group">
+							<h:outputLabel value="Titulo" />
+							<h:inputText class="form-control"
+								value="#{produtoController.entity.titulo}" 
+								required="true" requiredMessage="Informe o Titulo do produto."/>
 						</div>
 						<div class="form-group">
 							<div class="form-row">
@@ -55,14 +65,12 @@
 										value="#{produtoController.entity.modelo}" />
 								</div>
 								<div class="form-group col-md-6">
-									<h:outputLabel value="Ano de Fabricação" />
-									<h:inputText class="form-control"
-										value="#{produtoController.entity.anoFabricacao}" />
-								</div>
-								<div class="form-group col-md-6">
 									<h:outputLabel value="Preço" />
 									<h:inputText class="form-control"
-										value="#{produtoController.entity.preco}" />
+										value="#{produtoController.entity.preco}"
+										required="true" requiredMessage="Informe o preço do produto.">
+										<f:convertNumber pattern="#,##0.00" />
+									</h:inputText>
 								</div>
 								<div class="form-group col-md-6">
 									<h:outputLabel value="Estoque" />
@@ -71,23 +79,28 @@
 								</div>
 
 							</div>
+							<div class="form-group">
+								<h:outputLabel value="Descrição" />
+								<h:inputTextarea class="form-control"
+									value="#{produtoController.entity.descricao}" />
+							</div>
 							<div class="row">
 								<div class="form-group col-md-3">
 									<h:commandButton value="Incluir" style="width:100px"
 										class="btn btn-outline-primary"
-										disabled="#{produtoController.entity.id != null}"
+										rendered="#{produtoController.entity.id == null}"
 										actionListener="#{produtoController.incluir}" />
 								</div>
 								<div class="form-group col-md-3">
 									<h:commandButton value="Alterar" style="width:100px"
 										class="btn btn-outline-primary"
-										disabled="#{produtoController.entity.id == null}"
+										rendered="#{produtoController.entity.id != null}"
 										actionListener="#{produtoController.alterar}" />
 								</div>
 								<div class="form-group col-md-3">
 									<h:commandButton value="Excluir" style="width:100px"
 										class="btn btn-outline-danger"
-										disabled="#{produtoController.entity.id == null}"
+										rendered="#{produtoController.entity.id != null}"
 										actionListener="#{produtoController.remover}">
 										<f:ajax execute="@this" render="@form formDataTable" />
 									</h:commandButton>

@@ -24,12 +24,16 @@ public class PerfilUsuarioController implements Serializable{
 			return null;
 		return (Usuario) obj;
 	}
+	
+	public void alterarUsuario() {
+		Util.redirect("/patrolas.net/faces/usuario/editarPerfil.xhtml");
+	}
 
-	public void editar(Usuario usuario) {
+	public void editar() {
 		UsuarioDAO dao = new UsuarioDAO();
 		Usuario editarUsuario = null;
 		try {
-			editarUsuario = dao.obterUm(usuario);
+			editarUsuario = dao.obterUm(getUsuarioLogado());
 		} catch (Exception e) {
 			e.printStackTrace();
 			Util.addErrorMessage("Não foi possível encontrar o usuario no banco de dados.");
@@ -38,6 +42,7 @@ public class PerfilUsuarioController implements Serializable{
 
 		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
 		flash.put("usuarioFlash", editarUsuario);
+		alterarUsuario();
 	}
 
 

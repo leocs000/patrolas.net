@@ -1,12 +1,16 @@
 package net.patrolas.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 import net.patrolas.application.Session;
 import net.patrolas.application.Util;
+import net.patrolas.dao.CategoriaDAO;
+import net.patrolas.model.Categoria;
 import net.patrolas.model.Perfil;
 import net.patrolas.model.Usuario;
 
@@ -19,10 +23,12 @@ public class TemplateController implements Serializable{
 	private boolean adm = false;
 	private boolean func = false;
 	private boolean usu = false;
+	
+	private List<Categoria> listaCategoria;
 
 	public void encerrarSessao() {
 		Session.getInstance().invalidateSession();
-		Util.redirect("login.xhtml");
+		Util.redirect("/patrolas.net/faces/login.xhtml");
 	}
 
 	public Usuario getUsuarioLogado() {
@@ -32,7 +38,31 @@ public class TemplateController implements Serializable{
 		return (Usuario) obj;
 	}
 
-	public boolean getAdm() {
+	public List<Categoria> getListaCategoria() {
+		if(listaCategoria == null)
+			listaCategoria = new ArrayList<Categoria>();
+		
+		CategoriaDAO dao = new CategoriaDAO();
+		
+		try {
+			
+			setListaCategoria(dao.obterTodos());
+		} catch (Exception e) {
+			System.out.println("Não foi possivel realizar a consulta. Tente novamente mais tarde");
+			e.printStackTrace();
+			setListaCategoria(null);
+		}
+		
+		return listaCategoria;
+	}
+
+	public void setListaCategoria(List<Categoria> listaCategoria) {
+		this.listaCategoria = listaCategoria;
+	}
+
+	
+	
+	public boolean isAdm() {
 		if (getUsuarioLogado() != null) {
 			if (Perfil.ADMINISTRADOR.equals(getUsuarioLogado().getPerfil()))
 				setAdm(true);

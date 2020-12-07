@@ -16,8 +16,8 @@ import javax.servlet.http.HttpSession;
 import net.patrolas.model.Perfil;
 import net.patrolas.model.Usuario;
 
-@WebFilter( filterName = "SecurityFilter", urlPatterns = { "/faces/adm/*"})
-public class SecurityFilter implements Filter {
+@WebFilter( filterName = "SecurityFilterFuncionario", urlPatterns = {"/faces/usuario/*"})
+public class SecurityFilterUsuario implements Filter {
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -43,7 +43,10 @@ public class SecurityFilter implements Filter {
 			((HttpServletResponse) response).sendRedirect("/patrolas.net/faces/login.xhtml");
 		} else {
 			// nesse local podemos trabalhar as permissoes por pagina
-			if (Perfil.ADMINISTRADOR.equals(usuario.getPerfil())) {
+			if (Perfil.FUNCIONARIO.equals(usuario.getPerfil()) || 
+				Perfil.ADMINISTRADOR.equals(usuario.getPerfil()) || 
+				Perfil.USUARIO.equals(usuario.getPerfil())) {
+				
 				// segue o fluxo (permitido)
 				chain.doFilter(request, response);
 				return;

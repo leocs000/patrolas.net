@@ -8,7 +8,7 @@ public class Produto {
 	private Integer id;
 	
 	@NotBlank(message = "O código não pode ser nulo")
-	private Integer codigo;
+	private String codigo;
 	
 	@NotNull(message = "Escolha uma categoria")
 	private Categoria categoria;
@@ -16,10 +16,9 @@ public class Produto {
 	@NotBlank(message = "O Titulo não pode estar em branco")
 	@Size(min = 1, max = 100, message = "O titulo deve ter entre 1 e 100 caracteres")
 	private String titulo;
-	private String descriçao;
+	private String descricao;
 	private String fabricante;
 	private String modelo;
-	private Integer anoFabricacao;	
 	
 	@NotNull(message = "Informe o preço")
 	private Double preco;
@@ -39,10 +38,10 @@ public class Produto {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Integer getCodigo() {
+	public String getCodigo() {
 		return codigo;
 	}
-	public void setCodigo(Integer codigo) {
+	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
 	public Categoria getCategoria() {
@@ -61,12 +60,12 @@ public class Produto {
 		this.titulo = titulo;
 	}
 
-	public String getDescriçao() {
-		return descriçao;
+	public String getDescricao() {
+		return descricao;
 	}
 
-	public void setDescriçao(String descriçao) {
-		this.descriçao = descriçao;
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
 	public String getFabricante() {
@@ -80,12 +79,6 @@ public class Produto {
 	}
 	public void setModelo(String modelo) {
 		this.modelo = modelo;
-	}
-	public Integer getAnoFabricacao() {
-		return anoFabricacao;
-	}
-	public void setAnoFabricacao(Integer anoFabricacao) {
-		this.anoFabricacao = anoFabricacao;
 	}
 	public Double getPreco() {
 		return preco;

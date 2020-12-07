@@ -25,12 +25,11 @@ public class ConsultaProdutoController implements Serializable{
 	private List<Produto> listaProduto;
 
 	public void novoProduto() {
-		Util.redirect("Produto.xhtml");
+		Util.redirect("/patrolas.net/faces/funcionario/produto.xhtml");
 	}
 
 	public void pesquisar() {
 		ProdutoDAO dao = new ProdutoDAO();
-		System.out.println(tipoFiltro + " " + filtro);
 		try {
 			
 			setListaProduto(dao.obterListaProduto(tipoFiltro, filtro));

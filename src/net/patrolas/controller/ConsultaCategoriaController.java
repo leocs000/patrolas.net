@@ -24,7 +24,7 @@ public class ConsultaCategoriaController implements Serializable{
 	private List<Categoria> listaCategoria;
 
 	public void novaCategoria() {
-		Util.redirect("categoria.xhtml");
+		Util.redirect("/patrolas.net/faces/funcionario/categoria.xhtml");
 	}
 
 	public void pesquisar() {

@@ -19,50 +19,82 @@
 			<div>
 				<h:form rendered="#{templateController.usuarioLogado == null}">
 					<h:commandButton value="Entrar"
-						action="login.xhtml?faces-redirect=true" style="color:white" />
+						action="/login.xhtml?faces-redirect=true" style="color:white" />
 					<h:commandButton value="Criar Conta"
-						action="cadSimplificado.xhtml?faces-redirect=true" style="color:white" />
+						action="/cadSimplificado.xhtml?faces-redirect=true"
+						style="color:white" />
 				</h:form>
-				<h:form rendered="#{templateController.adm}">
-					<h:outputLabel value="Olá #{templateController.usuarioLogado.nome}" />
-					<h:outputLabel value="Olá Administrador" />
-					<h:commandLink value=" (Sair)"
-						action="#{templateController.encerrarSessao}" style="color:white" />
-				</h:form>
-				<h:form rendered="#{templateController.func}">
-					<h:outputLabel value="Olá #{templateController.usuarioLogado.nome}" />
-					<h:selectOneMenu>
-						
-					</h:selectOneMenu>
-					<h:commandLink value=" (Sair)"
-						action="#{templateController.encerrarSessao}" style="color:white" />
-				</h:form>
-				<h:form rendered="#{templateController.usu}">
-					<h:outputLabel value="Olá #{templateController.usuarioLogado.nome}" />
-					<h:outputLabel value="Olá Usuario" />
-					<h:commandLink value=" (Sair)"
-						action="#{templateController.encerrarSessao}" style="color:white" />
+				<h:form rendered="#{templateController.usuarioLogado != null}">
+					<nav>
+						<ul class="menuDropDown">
+							<li><h:commandLink
+									value="Olá #{templateController.usuarioLogado.nome}" />
+								<ul>
+									<li><h:commandLink action="/usuario/perfilUsuario.xhtml?faces-redirect=true">Meu espaço</h:commandLink></li>
+									<li><h:commandLink action="/usuario/historico.xhtml?faces-redirect=true">Meus pedidos</h:commandLink></li>
+									<li><h:commandLink action="#{templateController.encerrarSessao}">Sair</h:commandLink></li>
+
+								</ul>
+							</li>
+						</ul>
+					</nav>
 				</h:form>
 			</div>
 		</div>
 		<div class="box menu">
 			<ui:insert name="menu">
 				<h1>Menu</h1>
-				<h:form>
-					<h:commandLink value="Login"
-						action="login.xhtml?faces-redirect=true" />
+				<h:form rendered="#{templateController.adm}">
+					<h:commandLink value="Cadastrar Usuario"
+						action="/adm/usuario.xhtml?faces-redirect=true" />
 					<br />
-					<h:commandLink value="Cadastro de Usuário"
-						action="index.xhtml?faces-redirect=true" />
+					<h:commandLink value="Consultar Usuario"
+						action="/adm/consultaUsuario.xhtml?faces-redirect=true" />
 					<br />
 					<h:commandLink value="Cadastrar Produto"
-						action="Produto.xhtml?faces-redirect=true" />
+						action="/funcionario/produto.xhtml?faces-redirect=true" />
 					<br />
 					<h:commandLink value="Consultar Produto"
-						action="consultaProduto.xhtml?faces-redirect=true" />
+						action="/funcionario/consultaProduto.xhtml?faces-redirect=true" />
 					<br />
-					<h:commandLink value="Contato" />
+					<h:commandLink value="Cadastrar Categoria"
+						action="/funcionario/categoria.xhtml?faces-redirect=true" />
 					<br />
+					<h:commandLink value="Consultar Categoria"
+						action="/funcionario/consultaCategoria.xhtml?faces-redirect=true" />
+
+				</h:form>
+				<h:form rendered="#{templateController.func}">
+					<h:commandLink value="Cadastrar Produto"
+						action="/funcionario/produto.xhtml?faces-redirect=true" />
+					<br />
+					<h:commandLink value="Consultar Produto"
+						action="/funcionario/consultaProduto.xhtml?faces-redirect=true" />
+					<br />
+					<h:commandLink value="Cadastrar Categoria"
+						action="/funcionario/categoria.xhtml?faces-redirect=true" />
+					<br />
+					<h:commandLink value="Consultar Categoria"
+						action="/funcionario/consultaCategoria.xhtml?faces-redirect=true" />
+				</h:form>
+				<h:form rendered="#{templateController.usu}">
+					<ul>
+						<ui:repeat value="#{templateController.listaCategoria}" var="obj">
+							<h:commandLink>
+								<li><h:outputText value="#{obj.categoria}" /></li>
+							</h:commandLink>
+						</ui:repeat>
+					</ul>
+
+				</h:form>
+				<h:form rendered="#{templateController.usuarioLogado == null}">
+					<ul>
+						<ui:repeat value="#{templateController.listaCategoria}" var="obj">
+							<h:commandLink>
+								<li><h:outputText value="#{obj.categoria}" /></li>
+							</h:commandLink>
+						</ui:repeat>
+					</ul>
 
 				</h:form>
 			</ui:insert>
@@ -80,5 +112,10 @@
 				value="2020 - patrolas.net - Todos os direitos reservados." />
 		</div>
 	</div>
+	<script>
+		function setTrue() {
+
+		}
+	</script>
 </h:body>
 </html>

@@ -4,7 +4,7 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:jsf="http://xmlns.jcp.org/jsf"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-<ui:composition template="template.xhtml">
+<ui:composition template="../template.xhtml">
 <ui:define name="conteudo">
 
 	<h:messages 
@@ -31,7 +31,7 @@
 						<h:column>
 							<f:facet name="header">Data</f:facet>
 							<h:outputLabel value="#{obj.data}">
-								<f:convertDateTime type="localDate" pattern="dd-MM-yyyy"/>
+								<f:convertDateTime type="localDate" pattern="dd 'de' MMMM 'de' yyyy"/>
 							</h:outputLabel>
 						</h:column>
 						

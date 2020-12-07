@@ -36,24 +36,6 @@ public class ProdutoController extends Controller<Produto> implements Serializab
 		return entity;
 	}
 	
-//	public void obterListaCategoria() {
-//		CategoriaDAO dao = new CategoriaDAO();
-//		try {
-//			setListaCategoria(dao.obterTodos());
-//			for (Categoria categoria : listaCategoria) {
-//				System.out.println(categoria);
-//			}
-//		} catch (Exception e) {
-//			System.out.println("Erro ao pesquisar as categorias");
-//			e.printStackTrace();
-//			setListaCategoria(null);
-//		}
-//	}
-	
-	
-		
-	
-	
 	public List<Categoria> getListaCategoria() {
 		if(listaCategoria == null)
 			listaCategoria = new ArrayList<Categoria>();

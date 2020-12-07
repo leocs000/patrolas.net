@@ -23,7 +23,16 @@
 					</h:inputText>
 					<h:message for="itNome" style="color:red" />
 				</h:panelGroup>
-
+				
+				<h:outputLabel value="Cpf:" />
+				<h:panelGroup>
+					<h:inputText id="itCpf" value="#{usuarioController.entity.cpf}"
+						validatorMessage="Cpf inválido. Ex. 999.999.999-99">
+						<f:validateRegex
+							pattern="(^[0-9]{3}\.{1}[0-9]{3}\.{1}[0-9]{3}\-{1}[0-9]{2})|([0-9]{11})" />
+					</h:inputText>
+					<h:message for="itCpf" style="color:red" />
+				</h:panelGroup>
 
 				<h:outputLabel value="E-mail:" />
 				<h:panelGroup>

@@ -25,7 +25,7 @@ public class ConsultaUsuarioController implements Serializable{
 	private List<Usuario> listaUsuario;
 
 	public void novoUsuario() {
-		Util.redirect("index.xhtml");
+		Util.redirect("/patrolas.net/faces/adm/usuario.xhtml");
 	}
 
 	public void pesquisar() {

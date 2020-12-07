@@ -28,9 +28,8 @@ body {
 @media only screen and (min-width: 500px) {
 	.wrapper {
 		grid-template-columns: 30% auto;
-		grid-template-areas: "header   header" 
-							 "sidebar  content"
-							 "footer   footer";
+		grid-template-areas: "header   header" "sidebar  content"
+			"footer   footer";
 	}
 }
 
@@ -38,9 +37,8 @@ body {
 	.wrapper {
 		grid-gap: 0px;
 		grid-template-columns: 20% 40% 40%;
-		grid-template-areas: "header  header  header" 
-							 "sidebar content content"
-							 "footer  footer  footer";
+		grid-template-areas: "header  header  header" "sidebar content content"
+			"footer  footer  footer";
 		max-width: 100%;
 		min-height: 100%;
 		padding: 0;
@@ -57,9 +55,50 @@ body {
 	border: 0;
 }
 
+.menuDropDown {
+	list-style: none;
+	
+}
+
+.menuDropDown li {
+	position: relative;
+	
+}
+
+.menuDropDown li a {
+	color: white;
+	text-decoration: none;
+	padding: 5px 10px;
+	display: block;
+}
+
+.menuDropDown li a:hover {
+	background: #333;
+	color: #fff;
+	-moz-box-shadow: 0 3px 10px 0 #CCC;
+	-webkit-box-shadow: 0 3px 10px 0 #ccc;
+	text-shadow: 0px 0px 5px #fff;
+}
+
+.menuDropDown li  ul{
+position:absolute;
+top:25px;
+left:0;
+background-color:#fff;
+display:none;
+}
+
+.menuDropDown li:hover ul, .menuDropDown li.over ul{display:block;}
+
+.menuDropDown li ul li{
+border:1px solid #c0c0c0;
+display:block;
+width:150px;
+}
+
 .header {
 	color: #FFF;
-	background-color: black	;
+	background-color: black;
 	vertical-align: middle;
 	text-align: center;
 	height: 100px;
@@ -67,8 +106,7 @@ body {
 
 .footer {
 	grid-area: footer;
-	
-	background-color: white; 
+	background-color: white;
 	height: 50px;
 	text-align: center;
 	vertical-align: middle;
@@ -78,9 +116,9 @@ body {
 	font-size: 150%;
 	/*position: fixed;*/
 	border-style: solid;
- 	border-width: 1px;
+	border-width: 1px;
 	border-color: black;
 	border-left: 0px;
-	border-right:  0px;
+	border-right: 0px;
 	border-bottom: 0px;
 }

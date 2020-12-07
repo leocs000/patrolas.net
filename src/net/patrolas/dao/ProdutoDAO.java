@@ -19,20 +19,21 @@ public class ProdutoDAO implements DAO<Produto> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("INSERT INTO ");
 		sql.append("produto ");
-		sql.append("  (codigo, categoria, fabricante, modelo, ano_fabricacao, preco, estoque) ");
+		sql.append("  (codigo, categoria, titulo, descricao, fabricante, modelo, preco, estoque) ");
 		sql.append("VALUES ");
-		sql.append("  ( ?, ?, ?, ?, ?, ?, ?) ");
+		sql.append("  ( ?, ?, ?, ?, ?, ?, ?, ?, ?) ");
 		PreparedStatement stat = null;
 
 		try {
 			stat = conn.prepareStatement(sql.toString());
-			stat.setInt(1, obj.getCodigo());
+			stat.setString(1, obj.getCodigo());
 			stat.setInt(2, obj.getCategoria().getId());
-			stat.setString(3, obj.getFabricante());
-			stat.setString(4, obj.getModelo());
-			stat.setInt(5, obj.getAnoFabricacao());
-			stat.setDouble(6, obj.getPreco());
-			stat.setInt(7, obj.getEstoque());
+			stat.setString(3, obj.getTitulo());
+			stat.setString(4, obj.getDescricao());
+			stat.setString(5, obj.getFabricante());
+			stat.setString(6, obj.getModelo());
+			stat.setDouble(8, obj.getPreco());
+			stat.setInt(9, obj.getEstoque());
 			
 			
 		
@@ -86,9 +87,10 @@ public class ProdutoDAO implements DAO<Produto> {
 		sql.append("UPDATE produto SET ");
 		sql.append("  codigo = ?, ");
 		sql.append("  categoria = ?, ");
+		sql.append("  titulo = ?, ");
+		sql.append("  descricao = ?, ");
 		sql.append("  fabricante = ?, ");
 		sql.append("  modelo = ?, ");
-		sql.append("  ano_fabricacao = ?, ");
 		sql.append("  preco = ?, ");
 		sql.append("  estoque = ? ");
 		sql.append("WHERE ");
@@ -98,14 +100,15 @@ public class ProdutoDAO implements DAO<Produto> {
 
 		try {
 			stat = conn.prepareStatement(sql.toString());
-			stat.setInt(1, obj.getCodigo());
+			stat.setString(1, obj.getCodigo());
 			stat.setInt(2, obj.getCategoria().getId());
-			stat.setString(3, obj.getFabricante());
-			stat.setString(4, obj.getModelo());
-			stat.setInt(5, obj.getAnoFabricacao());
-			stat.setDouble(6, obj.getPreco());
-			stat.setInt(7, obj.getEstoque());
-			stat.setInt(8, obj.getId());
+			stat.setString(3, obj.getTitulo());
+			stat.setString(4, obj.getDescricao());
+			stat.setString(5, obj.getFabricante());
+			stat.setString(6, obj.getModelo());
+			stat.setDouble(8, obj.getPreco());
+			stat.setInt(9, obj.getEstoque());
+			stat.setInt(10, obj.getId());
 
 			stat.execute();
 			// efetivando a transacao
@@ -211,14 +214,15 @@ public class ProdutoDAO implements DAO<Produto> {
 		sql.append("  p.id, ");
 		sql.append("  p.codigo, ");
 		sql.append("  p.categoria, ");
+		sql.append("  p.titulo, ");
+		sql.append("  p.descricao, ");
 		sql.append("  p.fabricante, ");
 		sql.append("  p.modelo, ");
-		sql.append("  p.ano_fabricacao, ");
 		sql.append("  p.preco, ");
 		sql.append("  p.estoque ");
 		sql.append("FROM  ");
 		sql.append("  produto p ");
-		sql.append("ORDER BY p.nome ");
+		sql.append("ORDER BY p.titulo ");
 
 		PreparedStatement stat = null;
 		try {
@@ -230,11 +234,12 @@ public class ProdutoDAO implements DAO<Produto> {
 			while (rs.next()) {
 				Produto produto = new Produto();
 				produto.setId(rs.getInt("id"));
-				produto.setCodigo(rs.getInt("codigo"));
+				produto.setCodigo(rs.getString("codigo"));
 				produto.getCategoria().setId(rs.getInt("categoria"));
+				produto.setTitulo(rs.getString("titulo"));
+				produto.setDescricao(rs.getString("descricao"));
 				produto.setFabricante(rs.getString("fabricante"));
 				produto.setModelo(rs.getString("modelo"));
-				produto.setAnoFabricacao(rs.getInt("ano_fabricacao"));
 				produto.setPreco(rs.getDouble("preco"));
 				produto.setEstoque(rs.getInt("estoque"));
 
@@ -281,9 +286,10 @@ public class ProdutoDAO implements DAO<Produto> {
 		sql.append("  p.id, ");
 		sql.append("  p.codigo, ");
 		sql.append("  p.categoria, ");
+		sql.append("  p.titulo, ");
+		sql.append("  p.descricao, ");
 		sql.append("  p.fabricante, ");
 		sql.append("  p.modelo, ");
-		sql.append("  p.ano_fabricacao, ");
 		sql.append("  p.preco, ");
 		sql.append("  p.estoque ");
 		sql.append("FROM  ");
@@ -301,11 +307,12 @@ public class ProdutoDAO implements DAO<Produto> {
 			if (rs.next()) {
 				produto = new Produto();
 				produto.setId(rs.getInt("id"));
-				produto.setCodigo(rs.getInt("codigo"));
+				produto.setCodigo(rs.getString("codigo"));
 				produto.getCategoria().setId(rs.getInt("categoria"));
+				produto.setTitulo(rs.getString("titulo"));
+				produto.setDescricao(rs.getString("descricao"));
 				produto.setFabricante(rs.getString("fabricante"));
 				produto.setModelo(rs.getString("modelo"));
-				produto.setAnoFabricacao(rs.getInt("ano_fabricacao"));
 				produto.setPreco(rs.getDouble("preco"));
 				produto.setEstoque(rs.getInt("estoque"));
 			}
@@ -347,18 +354,21 @@ public class ProdutoDAO implements DAO<Produto> {
 		sql.append("SELECT ");
 		sql.append("  p.id, ");
 		sql.append("  p.codigo, ");
-		sql.append("  p.categoria, ");
+		sql.append("  p.categoria categoriaProduto, ");
+		sql.append("  p.titulo, ");
+		sql.append("  p.descricao, ");
 		sql.append("  p.fabricante, ");
 		sql.append("  p.modelo, ");
-		sql.append("  p.ano_fabricacao, ");
 		sql.append("  p.preco, ");
-		sql.append("  p.estoque ");
+		sql.append("  p.estoque, ");
+		sql.append("  c.categoria categoriaCategoria ");
 		sql.append("FROM  ");
-		sql.append("  produto p ");
+		sql.append("  produto p, categoria c ");
 		sql.append("WHERE ");
 		sql.append("  upper(p.codigo) LIKE upper( ? ) ");
 		sql.append("  AND upper(p.fabricante) LIKE upper( ? ) ");
-		sql.append("ORDER BY p.fabricante ");
+		sql.append("  AND p.categoria = c.id ");
+		sql.append("ORDER BY p.titulo ");
 
 		PreparedStatement stat = null;
 		try {
@@ -374,11 +384,13 @@ public class ProdutoDAO implements DAO<Produto> {
 
 				Produto produto = new Produto();
 				produto.setId(rs.getInt("id"));
-				produto.setCodigo(rs.getInt("codigo"));
-				produto.getCategoria().setId(rs.getInt("categoria"));
+				produto.setCodigo(rs.getString("codigo"));
+				produto.getCategoria().setId(rs.getInt("categoriaProduto"));
+				produto.getCategoria().setCategoria(rs.getString("categoriaCategoria"));
+				produto.setTitulo(rs.getString("titulo"));
+				produto.setDescricao(rs.getString("descricao"));
 				produto.setFabricante(rs.getString("fabricante"));
 				produto.setModelo(rs.getString("modelo"));
-				produto.setAnoFabricacao(rs.getInt("ano_fabricacao"));
 				produto.setPreco(rs.getDouble("preco"));
 				produto.setEstoque(rs.getInt("estoque"));
 
@@ -422,19 +434,21 @@ public class ProdutoDAO implements DAO<Produto> {
 		sql.append("SELECT ");
 		sql.append("  p.id, ");
 		sql.append("  p.codigo, ");
-		sql.append("  p.categoria, ");
+		sql.append("  p.categoria categoriaProduto, ");
+		sql.append("  p.titulo, ");
+		sql.append("  p.descricao, ");
 		sql.append("  p.fabricante, ");
 		sql.append("  p.modelo, ");
-		sql.append("  p.ano_fabricacao, ");
 		sql.append("  p.preco, ");
-		sql.append("  p.estoque ");
+		sql.append("  p.estoque, ");
+		sql.append("  c.categoria categoriaCategoria ");
 		sql.append("FROM  ");
-		sql.append("  produto p ");
+		sql.append("  produto p, categoria c ");
 		sql.append("WHERE ");
 		sql.append("  upper(p.codigo) LIKE upper( ? ) ");
 		sql.append("  AND upper(p.fabricante) LIKE upper( ? ) ");
-		sql.append("  AND p.estoque > 0 ");
-		sql.append("ORDER BY p.fabricante ");
+		sql.append("  AND p.categoria = c.id ");
+		sql.append("ORDER BY p.titulo ");
 
 		PreparedStatement stat = null;
 		try {
@@ -448,11 +462,13 @@ public class ProdutoDAO implements DAO<Produto> {
 			while (rs.next()) {
 				Produto produto = new Produto();
 				produto.setId(rs.getInt("id"));
-				produto.setCodigo(rs.getInt("codigo"));
-				produto.getCategoria().setId(rs.getInt("categoria"));
+				produto.setCodigo(rs.getString("codigo"));
+				produto.getCategoria().setId(rs.getInt("categoriaProduto"));
+				produto.getCategoria().setCategoria(rs.getString("categoriaCategoria"));
+				produto.setTitulo(rs.getString("titulo"));
+				produto.setDescricao(rs.getString("descricao"));
 				produto.setFabricante(rs.getString("fabricante"));
 				produto.setModelo(rs.getString("modelo"));
-				produto.setAnoFabricacao(rs.getInt("ano_fabricacao"));
 				produto.setPreco(rs.getDouble("preco"));
 				produto.setEstoque(rs.getInt("estoque"));
 

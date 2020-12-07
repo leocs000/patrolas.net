@@ -5,20 +5,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:jsf="http://xmlns.jcp.org/jsf">
 
-<ui:composition template="template.xhtml">
-
-	<ui:define name="menu">
-		<h1>Menu</h1>
-		<h:form>
-			<h:commandLink value="Login" action="login.xhtml?faces-redirect=true" />
-			<br />
-			<h:commandLink value="Cadastro de Produto"
-				action="Produto.xhtml?faces-redirect=true" />
-			<br />
-		</h:form>
-
-	</ui:define>
-
+<ui:composition template="../template.xhtml">
 
 	<ui:define name="conteudo">
 
@@ -46,33 +33,46 @@
 					<h:form id="formDataTable">
 						<div>
 							<h:panelGrid columns="1">
-								
 								<div>
-									<h:outputLabel value="Dados pessoais" />
-								</div>
-								<div>
-									<h:outputLabel value="Nome: " />
-									<h:outputLabel
-										value="#{perfilUsuarioController.usuarioLogado.nome}" />
-								</div>
-								<div>
-									<h:outputLabel value="CPF: " />
-									<h:outputLabel
-										value="#{perfilUsuarioController.usuarioLogado.cpf}" />
-								</div>
-								<div>
-									<h:outputLabel value="Segurança" />
-								</div>
-								<div>
-									<h:outputLabel value="E-mail: " />
-									<h:outputLabel
-										value="#{perfilUsuarioController.usuarioLogado.email}" />
-								</div>
-								<div>
-									<h:outputLabel value="Senha: " />
-									<h:outputLabel value="********" />
-								</div>
+									<div>
+										<h:outputLabel value="Dados pessoais" />
+									</div>
+									<h:commandLink
+										action="#{perfilUsuarioController.editar}">
 
+										<div>
+
+											<h:outputLabel value="Nome: " />
+											<h:outputLabel
+												value="#{perfilUsuarioController.usuarioLogado.nome}" />
+
+										</div>
+										<div>
+											<h:outputLabel value="CPF: " />
+											<h:outputLabel
+												value="#{perfilUsuarioController.usuarioLogado.cpf}" />
+										</div>
+
+									</h:commandLink>
+								</div>
+								<div>
+									<div>
+										<h:outputLabel value="Segurança" />
+									</div>
+									<h:commandLink
+										action="#{perfilUsuarioController.editar}">
+
+										<div>
+											<h:outputLabel value="E-mail: " />
+											<h:outputLabel
+												value="#{perfilUsuarioController.usuarioLogado.email}" />
+										</div>
+										<div>
+											<h:outputLabel value="Senha: " />
+											<h:outputLabel value="********" />
+										</div>
+									</h:commandLink>
+								</div>
 							</h:panelGrid>
 						</div>
 					</h:form>
