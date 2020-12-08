@@ -1,5 +1,7 @@
 package net.patrolas.model;
 
+import java.time.LocalDate;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -21,7 +23,10 @@ public class Usuario {
 	@NotBlank(message = "Informe o CPF")
 	private String cpf;
 	private Perfil perfil = Perfil.USUARIO;
+	private LocalDate dataNascimento;
+	private Sexo sexo;
 	
+	private Telefone telefone;
 	
 	
 	public Integer getId() {
@@ -60,7 +65,24 @@ public class Usuario {
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
 	}
-	
+	public LocalDate getDataNascimento() {
+		return dataNascimento;
+	}
+	public void setDataNascimento(LocalDate dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
+	public Sexo getSexo() {
+		return sexo;
+	}
+	public void setSexo(Sexo sexo) {
+		this.sexo = sexo;
+	}
+	public Telefone getTelefone() {
+		return telefone;
+	}
+	public void setTelefone(Telefone telefone) {
+		this.telefone = telefone;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;

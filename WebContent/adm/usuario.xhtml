@@ -37,11 +37,11 @@
 				<h:outputLabel value="Senha:" />
 				<h:panelGroup>
 					<h:inputSecret id="isSenha"
-						value="#{usuarioController.entity.senha}" 
-						required="true" requiredMessage="a senha deve ser informada."
+						value="#{usuarioController.entity.senha}" required="true"
+						requiredMessage="a senha deve ser informada."
 						validatorMessage="Informe um valor entre 6 e 10">
 						<f:validateLength minimum="6" maximum="10" />
-						</h:inputSecret>
+					</h:inputSecret>
 					<h:message for="isSenha" style="color:red" />
 				</h:panelGroup>
 
@@ -54,7 +54,21 @@
 					</h:inputText>
 					<h:message for="itCpf" style="color:red" />
 				</h:panelGroup>
-
+				<h:outputLabel value="Data Nascimento:" />
+				<h:panelGroup>
+					<h:inputText id="itData"
+						value="#{usuarioController.entity.dataNascimento}"
+						converterMessage="Erro ao converter a data">
+						<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
+					</h:inputText>
+					<h:message for="itData" style="color:red" />
+				</h:panelGroup>
+				<h:outputLabel value="Sexo:" />
+				<h:selectOneMenu value="#{usuarioController.entity.sexo}">
+					<f:selectItem itemLabel="Selecione ..." />
+					<f:selectItems value="#{usuarioController.listaSexo}" var="obj"
+						itemLabel="#{obj.label}" />
+				</h:selectOneMenu>
 				<h:outputLabel value="Perfil:" />
 				<h:selectOneRadio value="#{usuarioController.entity.perfil}">
 					<f:selectItems value="#{usuarioController.listaPerfil}" var="obj"
@@ -66,7 +80,7 @@
 			<h:commandButton value="Incluir"
 				actionListener="#{usuarioController.incluir()}"
 				rendered="#{usuarioController.entity.id == null}">
-			<f:ajax execute="@form" render="@form formDataTable" />
+				<f:ajax execute="@form" render="@form formDataTable" />
 			</h:commandButton>
 
 			<h:commandButton value="Alterar"

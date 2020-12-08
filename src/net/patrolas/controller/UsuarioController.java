@@ -9,6 +9,7 @@ import javax.inject.Named;
 
 import net.patrolas.dao.UsuarioDAO;
 import net.patrolas.model.Perfil;
+import net.patrolas.model.Sexo;
 import net.patrolas.model.Usuario;
 
 @Named
@@ -34,5 +35,7 @@ public class UsuarioController extends Controller<Usuario> implements Serializab
 	public Perfil[] getListaPerfil() {
 		return Perfil.values();
 	}
-
+	public Sexo[] getListaSexo() {
+		return Sexo.values();
+	}
 }

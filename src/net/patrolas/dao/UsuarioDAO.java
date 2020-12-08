@@ -1,6 +1,7 @@
 package net.patrolas.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,10 +10,10 @@ import java.util.List;
 
 import net.patrolas.application.Util;
 import net.patrolas.model.Perfil;
+import net.patrolas.model.Sexo;
 import net.patrolas.model.Usuario;
 
 public class UsuarioDAO implements DAO<Usuario> {
-
 
 	@Override
 	public void inserir(Usuario obj) throws Exception {
@@ -22,21 +23,28 @@ public class UsuarioDAO implements DAO<Usuario> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("INSERT INTO ");
 		sql.append("usuario ");
-		sql.append("	(nome, email, senha, cpf, perfil) ");
+		sql.append("  (nome, cpf, email, senha, sexo, perfil, data_nascimento) ");
 		sql.append("VALUES ");
-		sql.append("	(?, ?, ?, ?, ?) ");
-
+		sql.append("  ( ?, ?, ?, ?, ?, ?, ?) ");
 		PreparedStatement stat = null;
+
 		try {
 			stat = conn.prepareStatement(sql.toString());
 			stat.setString(1, obj.getNome());
-			stat.setString(2, obj.getEmail());
-			stat.setString(3, Util.hash(obj.getEmail()+obj.getSenha()));
-			stat.setString(4, obj.getCpf());
-			stat.setObject(5, obj.getPerfil() == null ? null : obj.getPerfil().getId());
-			
-			stat.execute();
+			stat.setString(2, obj.getCpf());
+			stat.setString(3, obj.getEmail());
+			stat.setString(4, obj.getSenha());
+			// ternario java
+			stat.setObject(5, (obj.getSexo() == null ? null : obj.getSexo().getId()));
+			stat.setObject(6, (obj.getPerfil() == null ? null : obj.getPerfil().getId()));
+			// convertendo um obj LocalDate para sql.Date
+			if (obj.getDataNascimento() != null)
+				stat.setDate(7, Date.valueOf(obj.getDataNascimento()));
+			else
+				stat.setDate(7, null);
 
+			stat.execute();
+			// efetivando a transacao
 			conn.commit();
 
 		} catch (SQLException e) {
@@ -80,10 +88,12 @@ public class UsuarioDAO implements DAO<Usuario> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("UPDATE usuario SET ");
 		sql.append("  nome = ?, ");
+		sql.append("  cpf = ?, ");
 		sql.append("  email = ?, ");
 		sql.append("  senha = ?, ");
-		sql.append("  cpf = ?, ");
-		sql.append("  perfil = ? ");
+		sql.append("  sexo = ?, ");
+		sql.append("  perfil = ?, ");
+		sql.append("  data_nascimento = ? ");
 		sql.append("WHERE ");
 		sql.append("  id = ? ");
 
@@ -92,11 +102,15 @@ public class UsuarioDAO implements DAO<Usuario> {
 		try {
 			stat = conn.prepareStatement(sql.toString());
 			stat.setString(1, obj.getNome());
-			stat.setString(2, obj.getEmail());
-			stat.setString(3, Util.hash(obj.getEmail()+obj.getSenha()));
-			stat.setString(4, obj.getCpf());
-			stat.setObject(5, obj.getPerfil() == null ? null : obj.getPerfil().getId());
-			stat.setInt(6, obj.getId());
+			stat.setString(2, obj.getCpf());
+			stat.setString(3, obj.getEmail());
+			stat.setString(4, obj.getSenha());
+			// ternario java
+			stat.setObject(5, (obj.getSexo() == null ? null : obj.getSexo().getId()));
+			stat.setObject(6, (obj.getPerfil() == null ? null : obj.getPerfil().getId()));
+			// convertendo um obj LocalDate para sql.Date
+			stat.setDate(7, obj.getDataNascimento() == null ? null : Date.valueOf(obj.getDataNascimento()));
+			stat.setInt(8, obj.getId());
 
 			stat.execute();
 			// efetivando a transacao
@@ -198,11 +212,13 @@ public class UsuarioDAO implements DAO<Usuario> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT ");
 		sql.append("  u.id, ");
+		sql.append("  u.data_nascimento, ");
+		sql.append("  u.sexo, ");
+		sql.append("  u.perfil, ");
 		sql.append("  u.nome, ");
-		sql.append("  u.email, ");
-		sql.append("  u.senha, ");
 		sql.append("  u.cpf, ");
-		sql.append("  u.perfil ");
+		sql.append("  u.email, ");
+		sql.append("  u.senha ");
 		sql.append("FROM  ");
 		sql.append("  usuario u ");
 		sql.append("ORDER BY u.nome ");
@@ -217,11 +233,14 @@ public class UsuarioDAO implements DAO<Usuario> {
 			while (rs.next()) {
 				Usuario usuario = new Usuario();
 				usuario.setId(rs.getInt("id"));
+				Date data = rs.getDate("data_nascimento");
+				usuario.setDataNascimento(data == null ? null : data.toLocalDate());
+				usuario.setSexo(Sexo.valueOf(rs.getInt("sexo")));
+				usuario.setPerfil(Perfil.valueOf(rs.getInt("perfil")));
 				usuario.setNome(rs.getString("nome"));
+				usuario.setCpf(rs.getString("cpf"));
 				usuario.setEmail(rs.getString("email"));
 				usuario.setSenha(rs.getString("senha"));
-				usuario.setCpf(rs.getString("cpf"));
-				usuario.setPerfil(Perfil.valueOf(rs.getInt("perfil")) == null ? null : Perfil.valueOf(rs.getInt("perfil")));
 
 				listaUsuario.add(usuario);
 			}
@@ -264,11 +283,13 @@ public class UsuarioDAO implements DAO<Usuario> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT ");
 		sql.append("  u.id, ");
+		sql.append("  u.data_nascimento, ");
+		sql.append("  u.sexo, ");
+		sql.append("  u.perfil, ");
 		sql.append("  u.nome, ");
-		sql.append("  u.email, ");
-		sql.append("  u.senha, ");
 		sql.append("  u.cpf, ");
-		sql.append("  u.perfil ");
+		sql.append("  u.email, ");
+		sql.append("  u.senha ");
 		sql.append("FROM  ");
 		sql.append("  usuario u ");
 		sql.append("WHERE u.id = ? ");
@@ -284,11 +305,14 @@ public class UsuarioDAO implements DAO<Usuario> {
 			if (rs.next()) {
 				usuario = new Usuario();
 				usuario.setId(rs.getInt("id"));
+				Date data = rs.getDate("data_nascimento");
+				usuario.setDataNascimento(data == null ? null : data.toLocalDate());
+				usuario.setSexo(Sexo.valueOf(rs.getInt("sexo")));
+				usuario.setPerfil(Perfil.valueOf(rs.getInt("perfil")));
 				usuario.setNome(rs.getString("nome"));
+				usuario.setCpf(rs.getString("cpf"));
 				usuario.setEmail(rs.getString("email"));
 				usuario.setSenha(rs.getString("senha"));
-				usuario.setCpf(rs.getString("cpf"));
-				usuario.setPerfil(Perfil.valueOf(rs.getInt("perfil")) == null ? null : Perfil.valueOf(rs.getInt("perfil")));
 			}
 
 		} catch (SQLException e) {
@@ -328,11 +352,13 @@ public class UsuarioDAO implements DAO<Usuario> {
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT ");
 		sql.append("  u.id, ");
+		sql.append("  u.data_nascimento, ");
+		sql.append("  u.sexo, ");
+		sql.append("  u.perfil, ");
 		sql.append("  u.nome, ");
-		sql.append("  u.email, ");
-		sql.append("  u.senha, ");
 		sql.append("  u.cpf, ");
-		sql.append("  u.perfil ");
+		sql.append("  u.email, ");
+		sql.append("  u.senha ");
 		sql.append("FROM  ");
 		sql.append("  usuario u ");
 		sql.append("WHERE ");
@@ -351,11 +377,14 @@ public class UsuarioDAO implements DAO<Usuario> {
 			if (rs.next()) {
 				usuario = new Usuario();
 				usuario.setId(rs.getInt("id"));
+				Date data = rs.getDate("data_nascimento");
+				usuario.setDataNascimento(data == null ? null : data.toLocalDate());
+				usuario.setSexo(Sexo.valueOf(rs.getInt("sexo")));
+				usuario.setPerfil(Perfil.valueOf(rs.getInt("perfil")));
 				usuario.setNome(rs.getString("nome"));
 				usuario.setCpf(rs.getString("cpf"));
 				usuario.setEmail(rs.getString("email"));
 				usuario.setSenha(rs.getString("senha"));
-				usuario.setPerfil(Perfil.valueOf(rs.getInt("perfil")) == null ? null : Perfil.valueOf(rs.getInt("perfil")));
 			}
 
 		} catch (SQLException e) {
@@ -385,20 +414,22 @@ public class UsuarioDAO implements DAO<Usuario> {
 
 		return usuario;
 	}
-	
+
 	public List<Usuario> obterListaUsuario(Integer tipo, String filtro) throws Exception { // tipo - 1 Nome; 2 Descricao
-		Exception exception = null;																					// null;
+		Exception exception = null;
 		Connection conn = DAO.getConnection();
 		List<Usuario> listaUsuario = new ArrayList<Usuario>();
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT ");
 		sql.append("  u.id, ");
+		sql.append("  u.data_nascimento, ");
+		sql.append("  u.sexo, ");
+		sql.append("  u.perfil, ");
 		sql.append("  u.nome, ");
-		sql.append("  u.email, ");
-		sql.append("  u.senha, ");
 		sql.append("  u.cpf, ");
-		sql.append("  u.perfil ");
+		sql.append("  u.email, ");
+		sql.append("  u.senha ");
 		sql.append("FROM  ");
 		sql.append("  usuario u ");
 		sql.append("WHERE ");
@@ -419,13 +450,15 @@ public class UsuarioDAO implements DAO<Usuario> {
 
 				Usuario usuario = new Usuario();
 				usuario.setId(rs.getInt("id"));
+				Date data = rs.getDate("data_nascimento");
+				usuario.setDataNascimento(data == null ? null : data.toLocalDate());
+				usuario.setSexo(Sexo.valueOf(rs.getInt("sexo")));
+				usuario.setPerfil(Perfil.valueOf(rs.getInt("perfil")));
 				usuario.setNome(rs.getString("nome"));
+				usuario.setCpf(rs.getString("cpf"));
 				usuario.setEmail(rs.getString("email"));
 				usuario.setSenha(rs.getString("senha"));
-				usuario.setCpf(rs.getString("cpf"));
-				usuario.setPerfil(Perfil.valueOf(rs.getInt("perfil")) == null ? null : Perfil.valueOf(rs.getInt("perfil")));
-				
-				
+
 				listaUsuario.add(usuario);
 			}
 
