@@ -27,6 +27,7 @@ public abstract class Controller<T> {
 			e.printStackTrace();
 		}
 	}
+
 	
 	public void alterar() {
 		try {

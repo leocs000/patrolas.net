@@ -13,6 +13,7 @@ import net.patrolas.model.Usuario;
 public class LoginController {
 
 	private Usuario usuario;
+	private AcessoController acesso;
 
 	public void logar() {
 		
@@ -28,7 +29,11 @@ public class LoginController {
 			else {
 				// Usuario existe com as credenciais
 				Session.getInstance().setAttribute("usuarioLogado", usuarioLogado);
-				Util.redirect("venda.xhtml");
+				if(getAcesso().isUsu())
+					Util.redirect("venda.xhtml");
+				else {
+					Util.redirect("index.xhtml");
+				}
 			}
 				
 		} catch (Exception e) {
@@ -45,6 +50,16 @@ public class LoginController {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public AcessoController getAcesso() {
+		if(acesso == null)
+			acesso = new AcessoController();
+		return acesso;
+	}
+
+	public void setAcesso(AcessoController acesso) {
+		this.acesso = acesso;
 	}
 
 	

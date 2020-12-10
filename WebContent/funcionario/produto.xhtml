@@ -3,43 +3,37 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:jsf="http://xmlns.jcp.org/jsf">
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 <ui:composition template="/template.xhtml">
 	<ui:define name="conteudo">
 
-		<h:messages errorStyle="color:red" warnStyle="color:orange"
-			infoStyle="color:green" globalOnly="false" />
-
 		<!-- Container -->
-		<div class="container-fluid">
-			<div class="row justify-content-md-center">
+		<div class="container-fluid justify-content-md-center">
+			<div class="row justify-content-md-center col-9" style="background: white; margin-left: 13%;">
+				<h:messages errorStyle="color:red" warnStyle="color:orange"
+					infoStyle="color:green" globalOnly="false" />
 				<div class="col-md-6 col-md-auto login-box">
 
-					<div class="form-row">
-						<div class="form-group col-md-2">
-							<h:form>
-								<h:commandLink value="voltar"
-									action="index.xhtml?faces-redirect=true" />
-							</h:form>
-						</div>
-						<div class="form-group col-md-10">
-							<h1 class="text-center wdi-red">Cadastro de Produto</h1>
-						</div>
+					<div class="form-group col-md-10">
+						<h1 class="text-center wdi-red">Cadastro de Produto</h1>
 					</div>
+				</div>
 
-					<hr />
-					<h:form>
+				<hr />
+				<h:form>
+
+					<div class="form-group">
 						<div class="form-group">
-							<h:outputLabel value="Código" />
-							<h:inputText class="form-control"
+							<h:inputText a:placeholder="Código" class="form-control"
 								value="#{produtoController.entity.codigo}" required="true"
 								requiredMessage="Informe o código do produto." />
-								
-								
+
+
 						</div>
 						<div class="form-group">
 							<h:outputLabel value="Categoria" />
-							<h:selectOneMenu value="#{produtoController.entity.categoria.id}" 
+							<h:selectOneMenu value="#{produtoController.entity.categoria.id}"
 								required="true" requiredMessage="Informe a categoria.">
 								<f:selectItem itemLabel="Selecione ..." />
 								<f:selectItems value="#{produtoController.listaCategoria}"
@@ -47,76 +41,70 @@
 							</h:selectOneMenu>
 						</div>
 						<div class="form-group">
-							<h:outputLabel value="Titulo" />
-							<h:inputText class="form-control"
-								value="#{produtoController.entity.titulo}" 
-								required="true" requiredMessage="Informe o Titulo do produto."/>
+							<h:inputText a:placeholder="Titulo" class="form-control"
+								value="#{produtoController.entity.titulo}" required="true"
+								requiredMessage="Informe o Titulo do produto." />
 						</div>
 						<div class="form-group">
 							<div class="form-row">
 								<div class="form-group col-md-6">
-									<h:outputLabel value="Fabricante" />
-									<h:inputText class="form-control"
+									<h:inputText a:placeholder="Fabricante" class="form-control"
 										value="#{produtoController.entity.fabricante}" />
 								</div>
 								<div class="form-group col-md-6">
-									<h:outputLabel value="Modelo" />
-									<h:inputText class="form-control"
+									<h:inputText a:placeholder="Modelo" class="form-control"
 										value="#{produtoController.entity.modelo}" />
 								</div>
 								<div class="form-group col-md-6">
-									<h:outputLabel value="Preço" />
-									<h:inputText class="form-control"
-										value="#{produtoController.entity.preco}"
-										required="true" requiredMessage="Informe o preço do produto.">
+									<h:inputText a:placeholder="Preço" class="form-control"
+										value="#{produtoController.entity.preco}" required="true"
+										requiredMessage="Informe o preço do produto.">
 										<f:convertNumber pattern="#,##0.00" />
 									</h:inputText>
 								</div>
 								<div class="form-group col-md-6">
-									<h:outputLabel value="Estoque" />
-									<h:inputText class="form-control"
+									<h:inputText a:placeholder="Estoque" class="form-control"
 										value="#{produtoController.entity.estoque}" />
 								</div>
 
 							</div>
 							<div class="form-group">
-								<h:outputLabel value="Descrição" />
-								<h:inputTextarea class="form-control"
+								<h:inputTextarea a:placeholder="Descrição" class="form-control"
 									value="#{produtoController.entity.descricao}" />
 							</div>
-							<div class="row">
-								<div class="form-group col-md-3">
-									<h:commandButton value="Incluir" style="width:100px"
-										class="btn btn-outline-primary"
-										rendered="#{produtoController.entity.id == null}"
-										actionListener="#{produtoController.incluir}" />
-								</div>
-								<div class="form-group col-md-3">
-									<h:commandButton value="Alterar" style="width:100px"
-										class="btn btn-outline-primary"
-										rendered="#{produtoController.entity.id != null}"
-										actionListener="#{produtoController.alterar}" />
-								</div>
-								<div class="form-group col-md-3">
-									<h:commandButton value="Excluir" style="width:100px"
-										class="btn btn-outline-danger"
-										rendered="#{produtoController.entity.id != null}"
-										actionListener="#{produtoController.remover}">
-										<f:ajax execute="@this" render="@form formDataTable" />
-									</h:commandButton>
-								</div>
-								<div class="form-group col-md-3">
-									<h:commandButton value="Limpar" style="width:100px"
-										class="btn btn-outline-primary"
-										actionListener="#{produtoController.limpar}">
-										<f:ajax execute="@this" render="@form" />
-									</h:commandButton>
-								</div>
-							</div>
-
 						</div>
-					</h:form>
-				</div>
+						<div class="row">
+							<div class="form-group col-md-3">
+								<h:commandButton value="Incluir" style="width:100px"
+									class="btn btn-outline-primary"
+									rendered="#{produtoController.entity.id == null}"
+									actionListener="#{produtoController.incluir}" />
+							</div>
+							<div class="form-group col-md-3">
+								<h:commandButton value="Alterar" style="width:100px"
+									class="btn btn-outline-primary"
+									rendered="#{produtoController.entity.id != null}"
+									actionListener="#{produtoController.alterar}" />
+							</div>
+							<div class="form-group col-md-3">
+								<h:commandButton value="Excluir" style="width:100px"
+									class="btn btn-outline-danger"
+									rendered="#{produtoController.entity.id != null}"
+									actionListener="#{produtoController.excluir()}">
+									<f:ajax execute="@this" render="@form formDataTable" />
+								</h:commandButton>
+							</div>
+							<div class="form-group col-md-3">
+								<h:commandButton value="Limpar" style="width:100px"
+									class="btn btn-outline-primary"
+									actionListener="#{produtoController.limpar}">
+									<f:ajax execute="@this" render="@form" />
+								</h:commandButton>
+							</div>
+						</div>
+
+					</div>
+				</h:form>
 			</div>
 		</div>
 	</ui:define>

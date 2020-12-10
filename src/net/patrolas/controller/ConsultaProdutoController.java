@@ -44,6 +44,7 @@ public class ConsultaProdutoController implements Serializable{
 		ProdutoDAO dao = new ProdutoDAO();
 		Produto editarProduto = null;
 		try {
+			
 			editarProduto = dao.obterUm(produto);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -20,15 +20,16 @@ public class TelefoneDAO implements DAO<Telefone>{
 		StringBuffer sql = new StringBuffer();
 		sql.append("INSERT INTO ");
 		sql.append("telefone ");
-		sql.append("  (codigo_area, numero) ");
+		sql.append("  (id, codigo_area, numero) ");
 		sql.append("VALUES ");
-		sql.append("  ( ?, ? ) ");
+		sql.append("  ( ?, ?, ? ) ");
 		PreparedStatement stat = null;
 
 		try {
 			stat = conn.prepareStatement(sql.toString());
-			stat.setString(1, obj.getCodigoArea());
-			stat.setString(2, obj.getNumero());
+			stat.setInt(1, obj.getId());
+			stat.setString(2, obj.getCodigoArea());
+			stat.setString(3, obj.getNumero());
 
 			stat.execute();
 			// efetivando a transacao
@@ -85,6 +86,7 @@ public class TelefoneDAO implements DAO<Telefone>{
 		PreparedStatement stat = null;
 
 		try {
+			System.out.println(obj.getId() + obj.getCodigoArea() + obj.getNumero());
 			stat = conn.prepareStatement(sql.toString());
 			stat.setString(1, obj.getCodigoArea());
 			stat.setString(2, obj.getNumero());
@@ -96,7 +98,7 @@ public class TelefoneDAO implements DAO<Telefone>{
 
 		} catch (SQLException e) {
 
-			System.out.println("Erro ao realizar um comando sql de insert.");
+			System.out.println("Erro ao realizar um comando sql de alter.");
 			e.printStackTrace();
 			// cancelando a transacao
 			try {

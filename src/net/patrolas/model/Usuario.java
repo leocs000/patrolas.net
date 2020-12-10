@@ -17,7 +17,7 @@ public class Usuario {
 	private String email;
 	
 	@NotBlank(message = "Informe uma senha válida")
-	@Size(min = 3, max = 10, message = "A senha deve conter no mínimo 6 dígitos e maximo 10.")
+	@Size(min = 6, max = 10, message = "A senha deve conter no mínimo 6 dígitos e maximo 10.")
 	private String senha;
 	
 	@NotBlank(message = "Informe o CPF")
@@ -78,6 +78,8 @@ public class Usuario {
 		this.sexo = sexo;
 	}
 	public Telefone getTelefone() {
+		if(telefone == null)
+			telefone = new Telefone();
 		return telefone;
 	}
 	public void setTelefone(Telefone telefone) {

@@ -2,104 +2,157 @@
 <html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 <ui:composition template="/template.xhtml">
 	<ui:define name="conteudo">
 
-		<h1 style="">Cadastro de Usuário</h1>
+		<div class="container-fluid justify-content-md-center">
+			<div class="row justify-content-md-center col-9" style="background: white; margin-left: 13%;">
 
-		<h:form>
-			<h:messages errorStyle="color:red" infoStyle="color:green"
-				warnStyle="color:orange" globalOnly="true" showDetail="false" />
-			<h:panelGrid columns="2">
-
-				<h:outputLabel value="Nome:" />
-				<h:panelGroup>
-					<h:inputText id="itNome" value="#{usuarioController.entity.nome}"
-						required="true" requiredMessage="O nome deve ser informado."
-						validatorMessage="Informe um valor entre 2 e 60">
-						<f:validateLength minimum="2" maximum="60" />
-					</h:inputText>
-					<h:message for="itNome" style="color:red" />
-				</h:panelGroup>
+				<h:messages errorStyle="color:red" infoStyle="color:green"
+					warnStyle="color:orange" globalOnly="true" showDetail="false" />
 
 
-				<h:outputLabel value="E-mail:" />
-				<h:panelGroup>
-					<h:inputText id="itEmail" value="#{usuarioController.entity.email}"
-						validatorMessage="Email inválido.">
-						<f:validateRegex
-							pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" />
-					</h:inputText>
-					<h:message for="itEmail" style="color:red" />
-				</h:panelGroup>
+				<hr />
 
-				<h:outputLabel value="Senha:" />
-				<h:panelGroup>
-					<h:inputSecret id="isSenha"
-						value="#{usuarioController.entity.senha}" required="true"
-						requiredMessage="a senha deve ser informada."
-						validatorMessage="Informe um valor entre 6 e 10">
-						<f:validateLength minimum="6" maximum="10" />
-					</h:inputSecret>
-					<h:message for="isSenha" style="color:red" />
-				</h:panelGroup>
+				<h:form>
+					<div class="col-md-12 col-md-auto login-box">
 
-				<h:outputLabel value="Cpf:" />
-				<h:panelGroup>
-					<h:inputText id="itCpf" value="#{usuarioController.entity.cpf}"
-						validatorMessage="Cpf inválido. Ex. 999.999.999-99">
-						<f:validateRegex
-							pattern="(^[0-9]{3}\.{1}[0-9]{3}\.{1}[0-9]{3}\-{1}[0-9]{2})|([0-9]{11})" />
-					</h:inputText>
-					<h:message for="itCpf" style="color:red" />
-				</h:panelGroup>
-				<h:outputLabel value="Data Nascimento:" />
-				<h:panelGroup>
-					<h:inputText id="itData"
-						value="#{usuarioController.entity.dataNascimento}"
-						converterMessage="Erro ao converter a data">
-						<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
-					</h:inputText>
-					<h:message for="itData" style="color:red" />
-				</h:panelGroup>
-				<h:outputLabel value="Sexo:" />
-				<h:selectOneMenu value="#{usuarioController.entity.sexo}">
-					<f:selectItem itemLabel="Selecione ..." />
-					<f:selectItems value="#{usuarioController.listaSexo}" var="obj"
-						itemLabel="#{obj.label}" />
-				</h:selectOneMenu>
-				<h:outputLabel value="Perfil:" />
-				<h:selectOneRadio value="#{usuarioController.entity.perfil}">
-					<f:selectItems value="#{usuarioController.listaPerfil}" var="obj"
-						itemLabel="#{obj.label}" />
-				</h:selectOneRadio>
+						<div class="form-group col-md-10">
+							<h1 class="text-center wdi-red">Cadastro de Usuário</h1>
+						</div>
+					</div>
+					<div class="form-group">
 
-			</h:panelGrid>
+						<div class="form-group">
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<h:inputText a:placeholder="Nome" styleClass="form-control"
+										id="itNome" value="#{usuarioController.entity.nome}"
+										required="true" requiredMessage="O nome deve ser informado."
+										validatorMessage="Informe um valor entre 2 e 60">
+										<f:validateLength minimum="2" maximum="60" />
+									</h:inputText>
+									<h:message for="itNome" style="color:red" />
+								</div>
+								<div class="form-group col-md-6">
+									<div class="form-row">
+										<div class="form-group col-md-2">
+											<h:inputText a:placeholder="63" styleClass="form-control"
+												id="itTelefoneDDD"
+												value="#{usuarioController.entity.telefone.codigoArea}"
+												required="true"
+												requiredMessage="O Telefone deve ser informado.">
+												<f:validateLength minimum="2" maximum="3" />
+											</h:inputText>
+											<h:message for="itTelefoneDDD" style="color:red" />
+										</div>
+										<div class="form-group col-md-7">
+											<h:inputText a:placeholder="94002-8922"
+												styleClass="form-control" id="itTelefoneNumero"
+												value="#{usuarioController.entity.telefone.numero}"
+												required="true"
+												requiredMessage="O Telefone deve ser informado.">
+												<f:validateLength minimum="9" maximum="10" />
+											</h:inputText>
+											<h:message for="itTelefoneNumero" style="color:red" />
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<h:inputText a:placeholder="CPF" styleClass="form-control"
+										id="itCpf" value="#{usuarioController.entity.cpf}"
+										validatorMessage="Cpf inválido. Ex. 999.999.999-99">
+										<f:validateRegex
+											pattern="(^[0-9]{3}\.{1}[0-9]{3}\.{1}[0-9]{3}\-{1}[0-9]{2})|([0-9]{11})" />
+									</h:inputText>
+									<h:message for="itCpf" style="color:red" />
+								</div>
+								<div class="form-group col-md-6">
+									<h:inputText a:placeholder="Data de Nascimento"
+										styleClass="form-control" id="itData"
+										value="#{usuarioController.entity.dataNascimento}"
+										converterMessage="Erro ao converter a data">
+										<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
+									</h:inputText>
+									<h:message for="itData" style="color:red" />
+								</div>
+							</div>
+						</div>
 
-			<h:commandButton value="Incluir"
-				actionListener="#{usuarioController.incluir()}"
-				rendered="#{usuarioController.entity.id == null}">
-				<f:ajax execute="@form" render="@form formDataTable" />
-			</h:commandButton>
 
-			<h:commandButton value="Alterar"
-				actionListener="#{usuarioController.alterar()}"
-				rendered="#{usuarioController.entity.id != null}">
-				<f:ajax execute="@form" render="@form formDataTable" />
-			</h:commandButton>
 
-			<h:commandButton value="Excluir"
-				actionListener="#{usuarioController.excluir()}"
-				rendered="#{usuarioController.entity.id != null}">
-				<f:ajax execute="@this" render="@form formDataTable" />
-			</h:commandButton>
+						<div class="form-group">
+							<h:inputText a:placeholder="Email" styleClass="form-control"
+								id="itEmail" value="#{usuarioController.entity.email}"
+								validatorMessage="Email inválido.">
+								<f:validateRegex
+									pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" />
+							</h:inputText>
+							<h:message for="itEmail" style="color:red" />
+						</div>
 
-			<h:commandButton value="Limpar"
-				actionListener="#{usuarioController.limpar}">
-				<f:ajax execute="@this" render="@form" />
-			</h:commandButton>
-		</h:form>
+						<div class="form-group">
+							<h:inputSecret a:placeholder="Senha" styleClass="form-control"
+								id="isSenha" value="#{usuarioController.entity.senha}"
+								required="true" requiredMessage="a senha deve ser informada."
+								validatorMessage="Informe um valor entre 6 e 10">
+								<f:validateLength minimum="6" maximum="10" />
+							</h:inputSecret>
+							<h:message for="isSenha" style="color:red" />
+						</div>
+						<div class="form-group col-md-4">
+							<h:outputLabel value="Sexo:" />
+							<h:selectOneMenu value="#{usuarioController.entity.sexo}">
+								<f:selectItem itemLabel="Selecione ..." />
+								<f:selectItems value="#{usuarioController.listaSexo}" var="obj"
+									itemLabel="#{obj.label}" />
+							</h:selectOneMenu>
+						</div>
+						<div styleClass="form-group col-md-6">
+							<h:outputLabel value="Perfil:" />
+							<h:selectOneRadio value="#{usuarioController.entity.perfil}">
+								<f:selectItems value="#{usuarioController.listaPerfil}"
+									var="obj" itemLabel="#{obj.label}" />
+							</h:selectOneRadio>
+						</div>
+
+					</div>
+					<div class="row">
+						<div class="form-group col-md-3">
+							<h:commandButton value="Incluir" class="btn btn-outline-primary"
+								actionListener="#{usuarioController.incluir()}"
+								rendered="#{usuarioController.entity.id == null}">
+								<f:ajax execute="@form" render="@form formDataTable" />
+							</h:commandButton>
+						</div>
+						<div class="form-group col-md-3">
+							<h:commandButton value="Alterar" class="btn btn-outline-primary"
+								actionListener="#{usuarioController.alterar()}"
+								rendered="#{usuarioController.entity.id != null}">
+								<f:ajax execute="@form" render="@form formDataTable" />
+							</h:commandButton>
+						</div>
+						<div class="form-group col-md-3" >
+							<h:commandButton value="Excluir" class="btn btn-outline-danger"
+								actionListener="#{usuarioController.excluir()}"
+								rendered="#{usuarioController.entity.id != null}">
+								<f:ajax execute="@this" render="@form formDataTable" />
+							</h:commandButton>
+						</div>
+						<div class="form-group col-md-3">
+							<h:commandButton class="btn btn-outline-primary" value="Limpar"
+								actionListener="#{usuarioController.limpar}">
+								<f:ajax execute="@this" render="@form" />
+							</h:commandButton>
+						</div>
+					</div>
+				</h:form>
+			</div>
+		</div>
 	</ui:define>
 </ui:composition>
 </html>

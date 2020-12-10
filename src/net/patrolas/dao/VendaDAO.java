@@ -104,12 +104,20 @@ public class VendaDAO implements DAO<Venda> {
 			stat.setDouble(2, itemVenda.getProduto().getId());
 			stat.setDouble(3, idVenda);
 			stat.execute();
-
+			
+			ProdutoDAO dao = new ProdutoDAO();
+			if(dao.alterarEstoque(itemVenda.getProduto().getId(), conn) == false) {
+				new Exception("Sem estoque disponivel");
+			}
+				
+		
 		} catch (SQLException e) {
 			System.out.println("Erro ao realizar um comando sql de insert.");
 			e.printStackTrace();
 			retorno  = false;
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
 			try {
 				if (!stat.isClosed())
 					stat.close();

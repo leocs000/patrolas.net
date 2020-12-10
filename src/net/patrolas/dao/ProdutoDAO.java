@@ -21,7 +21,7 @@ public class ProdutoDAO implements DAO<Produto> {
 		sql.append("produto ");
 		sql.append("  (codigo, categoria, titulo, descricao, fabricante, modelo, preco, estoque) ");
 		sql.append("VALUES ");
-		sql.append("  ( ?, ?, ?, ?, ?, ?, ?, ?, ?) ");
+		sql.append("  ( ?, ?, ?, ?, ?, ?, ?, ?) ");
 		PreparedStatement stat = null;
 
 		try {
@@ -32,11 +32,8 @@ public class ProdutoDAO implements DAO<Produto> {
 			stat.setString(4, obj.getDescricao());
 			stat.setString(5, obj.getFabricante());
 			stat.setString(6, obj.getModelo());
-			stat.setDouble(8, obj.getPreco());
-			stat.setInt(9, obj.getEstoque());
-			
-			
-		
+			stat.setDouble(7, obj.getPreco());
+			stat.setInt(8, obj.getEstoque());
 
 			stat.execute();
 			// efetivando a transacao
@@ -106,9 +103,9 @@ public class ProdutoDAO implements DAO<Produto> {
 			stat.setString(4, obj.getDescricao());
 			stat.setString(5, obj.getFabricante());
 			stat.setString(6, obj.getModelo());
-			stat.setDouble(8, obj.getPreco());
-			stat.setInt(9, obj.getEstoque());
-			stat.setInt(10, obj.getId());
+			stat.setDouble(7, obj.getPreco());
+			stat.setInt(8, obj.getEstoque());
+			stat.setInt(9, obj.getId());
 
 			stat.execute();
 			// efetivando a transacao
@@ -147,6 +144,61 @@ public class ProdutoDAO implements DAO<Produto> {
 
 		if (exception != null)
 			throw exception;
+
+	}
+
+	public boolean alterarEstoque(Integer id, Connection conn) throws Exception {
+		Integer estoque;
+		boolean retorno = true;
+
+		StringBuffer sql = new StringBuffer();
+		sql.append("UPDATE produto SET ");
+		sql.append("  estoque = ? ");
+		sql.append("WHERE ");
+		sql.append("  id = ? ");
+
+		PreparedStatement stat = null;
+
+		try {
+			
+			estoque = obterEstoque(id, conn);
+			
+			stat = conn.prepareStatement(sql.toString());	
+			if (estoque > 0) {
+				estoque = estoque - 1;
+			}else {
+				retorno = false;
+			}	
+			stat.setInt(1, estoque);
+			stat.setInt(2, id);
+			
+			
+			
+			stat.execute();
+
+		} catch (SQLException e) {
+
+			System.out.println("Erro ao realizar um comando sql de Update.");
+			e.printStackTrace();
+			// cancelando a transacao
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				System.out.println("Erro ao realizar o rollback.");
+				e1.printStackTrace();
+			}
+
+		} finally {
+			try {
+				if (!stat.isClosed())
+					stat.close();
+			} catch (SQLException e) {
+				System.out.println("Erro ao fechar o Statement");
+				e.printStackTrace();
+			}
+		}
+
+		return retorno;
 
 	}
 
@@ -344,9 +396,49 @@ public class ProdutoDAO implements DAO<Produto> {
 
 		return produto;
 	}
+	public Integer obterEstoque(Integer id, Connection conn) throws Exception {
+		
+		Integer estoque = null;
+		
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT ");
+		sql.append("  p.estoque ");
+		sql.append("FROM  ");
+		sql.append("  produto p ");
+		sql.append("WHERE p.id = ? ");
+		
+		PreparedStatement stat = null;
+		try {
+			
+			stat = conn.prepareStatement(sql.toString());
+			stat.setInt(1, id);
+			
+			ResultSet rs = stat.executeQuery();
+			
+			if (rs.next()) {
+				estoque = rs.getInt("estoque");
+			}
+			
+		} catch (SQLException e) {
+			Util.addErrorMessage("Não foi possivel buscar os dados do produto");
+			e.printStackTrace();
+		} finally {
+			try {
+				if (!stat.isClosed())
+					stat.close();
+			} catch (SQLException e) {
+				System.out.println("Erro ao fechar o Statement");
+				e.printStackTrace();
+			}
+			
+		}
+		
+		
+		return estoque;
+	}
 
 	public List<Produto> obterListaProduto(Integer tipo, String filtro) throws Exception { // tipo - 1 Nome; 2 Descricao
-		Exception exception = null;																					// null;
+		Exception exception = null; // null;
 		Connection conn = DAO.getConnection();
 		List<Produto> listaProduto = new ArrayList<Produto>();
 
@@ -372,12 +464,12 @@ public class ProdutoDAO implements DAO<Produto> {
 
 		PreparedStatement stat = null;
 		try {
-			
+
 			stat = conn.prepareStatement(sql.toString());
-			
+
 			stat.setString(1, tipo == 1 ? "%" + filtro + "%" : "%");
 			stat.setString(2, tipo == 2 ? "%" + filtro + "%" : "%");
-			
+
 			ResultSet rs = stat.executeQuery();
 
 			while (rs.next()) {
@@ -426,7 +518,7 @@ public class ProdutoDAO implements DAO<Produto> {
 	}
 
 	public List<Produto> obterListaProdutoComEstoque(Integer tipo, String filtro) throws Exception { // tipo - 1 Nome; 2
-		Exception exception = null;																								// null;
+		Exception exception = null; // null;
 		Connection conn = DAO.getConnection();
 		List<Produto> listaProduto = new ArrayList<Produto>();
 
@@ -448,6 +540,7 @@ public class ProdutoDAO implements DAO<Produto> {
 		sql.append("  upper(p.codigo) LIKE upper( ? ) ");
 		sql.append("  AND upper(p.fabricante) LIKE upper( ? ) ");
 		sql.append("  AND p.categoria = c.id ");
+		sql.append("  AND p.estoque > 0 ");
 		sql.append("ORDER BY p.titulo ");
 
 		PreparedStatement stat = null;
@@ -502,5 +595,81 @@ public class ProdutoDAO implements DAO<Produto> {
 
 		return listaProduto;
 	}
-	
+	public List<Produto> obterListaProdutoComEstoque(String filtro) throws Exception {
+		Exception exception = null;
+		Connection conn = DAO.getConnection();
+		List<Produto> listaProduto = new ArrayList<Produto>();
+		
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT ");
+		sql.append("  p.id, ");
+		sql.append("  p.codigo, ");
+		sql.append("  p.categoria categoriaProduto, ");
+		sql.append("  p.titulo, ");
+		sql.append("  p.descricao, ");
+		sql.append("  p.fabricante, ");
+		sql.append("  p.modelo, ");
+		sql.append("  p.preco, ");
+		sql.append("  p.estoque, ");
+		sql.append("  c.categoria categoriaCategoria ");
+		sql.append("FROM  ");
+		sql.append("  produto p, categoria c ");
+		sql.append("WHERE ");
+		sql.append("  upper(p.titulo) LIKE upper( ? ) ");
+		sql.append("  AND p.categoria = c.id ");
+		sql.append("  AND p.estoque > 0 ");
+		sql.append("ORDER BY p.titulo ");
+		
+		PreparedStatement stat = null;
+		try {
+			
+			stat = conn.prepareStatement(sql.toString());
+			stat.setString(1, filtro != null ? "%" + filtro + "%" : "%");
+			
+			ResultSet rs = stat.executeQuery();
+			
+			while (rs.next()) {
+				Produto produto = new Produto();
+				produto.setId(rs.getInt("id"));
+				produto.setCodigo(rs.getString("codigo"));
+				produto.getCategoria().setId(rs.getInt("categoriaProduto"));
+				produto.getCategoria().setCategoria(rs.getString("categoriaCategoria"));
+				produto.setTitulo(rs.getString("titulo"));
+				produto.setDescricao(rs.getString("descricao"));
+				produto.setFabricante(rs.getString("fabricante"));
+				produto.setModelo(rs.getString("modelo"));
+				produto.setPreco(rs.getDouble("preco"));
+				produto.setEstoque(rs.getInt("estoque"));
+				
+				listaProduto.add(produto);
+			}
+			
+		} catch (SQLException e) {
+			Util.addErrorMessage("Não foi possivel buscar os dados do produto");
+			e.printStackTrace();
+			exception = new Exception("Erro ao executar um sql em ProdutoDAO.");
+		} finally {
+			try {
+				if (!stat.isClosed())
+					stat.close();
+			} catch (SQLException e) {
+				System.out.println("Erro ao fechar o Statement");
+				e.printStackTrace();
+			}
+			
+			try {
+				if (!conn.isClosed())
+					conn.close();
+			} catch (SQLException e) {
+				System.out.println("Erro a o fechar a conexao com o banco.");
+				e.printStackTrace();
+			}
+		}
+		
+		if (exception != null)
+			throw exception;
+		
+		return listaProduto;
+	}
+
 }

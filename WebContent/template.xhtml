@@ -3,119 +3,237 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:jsf="http://xmlns.jcp.org/jsf">
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 <h:head>
 	<meta charset="utf-8" name="viewport"
 		content="width=device-width, initial-scale=1"
 		http-equiv="X-UA-Conpatible" />
-	<h:outputStylesheet library="css" name="bootstrap.min.css" />
-	<h:outputStylesheet library="css" name="template.css" />
+	<h:outputStylesheet library="css" name="/bootstrap.min.css" />
+	<h:outputStylesheet library="css" name="/template.css" />
 </h:head>
 
 <h:body>
 	<div class="wrapper">
-		<div class="box navbar header">
-			<h1>patrolas.net</h1>
-			<div>
-				<h:form rendered="#{templateController.usuarioLogado == null}">
-					<h:commandButton value="Entrar"
-						action="/login.xhtml?faces-redirect=true" style="color:white" />
-					<h:commandButton value="Criar Conta"
-						action="/cadSimplificado.xhtml?faces-redirect=true"
-						style="color:white" />
-				</h:form>
-				<h:form rendered="#{templateController.usuarioLogado != null}">
-					<nav>
-						<ul class="menuDropDown">
-							<li><h:commandLink
-									value="Olá #{templateController.usuarioLogado.nome}" />
+		<ui:insert name="navbar">
+			<div style="height: 30px; width: 100%; background-color: #23303E;"></div>
+			<div class="box navbar header menu-container">
+
+				<div class="col-3 cel-menu " style="font-size: 40px; padding: 0;">
+					<h:form styleClass="col-12" style="padding: 0;">
+						<div class="col-4" style="height: 37px; padding: 0;">
+							<h:graphicImage styleClass="col-12"
+								url="/resources/img/Grader.png" style="padding: 0; top: -20px;" />
+						</div>
+						<div class="col-8"
+							style="height: 37px; padding: 0; float: right; top: -37px;">
+							<h:commandLink styleClass="col-12"
+								style="padding: 0; top: -15px; color: white;"
+								action="/venda.xhtml?faces-redirect=true">patrolas.net</h:commandLink>
+						</div>
+					</h:form>
+				</div>
+				<ui:insert name="pesquisaMenu">
+					<div class="col-5 cel-menu">
+						<h:form styleClass="col-12" style="padding:0;">
+							<h:inputText styleClass=" input-buscar col-11"
+								a:placeholder="O que você procura..." value="#{templateController.filtro}" />
+
+							<h:commandLink type="button" styleClass="btn-buscar col-1" actionListener="#{templateController.pesquisar}">
+								<h:graphicImage width="16px" styleClass="menu-div-img"
+									url="/resources/img/lupa.png" />
+							</h:commandLink>
+
+						</h:form>
+					</div>
+				</ui:insert>
+				<div class="col-1 cel-menu"></div>
+
+				<ui:insert name="menuUsuario">
+					<div class="col-2 cel-menu">
+						<h:form styleClass="col-12"
+							rendered="#{templateController.acesso.usuarioLogado == null}">
+							<h:commandLink action="/login.xhtml?faces-redirect=true">
+								<div class="col-4 menu-div-img-usu">
+									<h:graphicImage width="35px;" styleClass="menu-div-img"
+										url="/resources/img/icon-novo-user.png" />
+								</div>
+							</h:commandLink>
+							<div class="col-8 menu-div-acesso">
+								<div class="menu-div-acesso-entrar">
+									<h:commandLink value="Entre ou"
+										action="/login.xhtml?faces-redirect=true" />
+								</div>
+								<div class="menu-div-acesso-cadastrar">
+									<h:commandLink value="Cadastre-se"
+										action="/cadSimplificado.xhtml?faces-redirect=true" />
+								</div>
+							</div>
+
+						</h:form>
+
+						<h:form styleClass="col-12"
+							rendered="#{templateController.acesso.usuarioLogado != null}">
+
+							<div class="dropdown">
+
+
+								<div class="col-4 menu-div-img-usu">
+									<h:graphicImage width="35px;" styleClass="menu-div-img"
+										url="/resources/img/icon-novo-user.png" />
+								</div>
+								<div class="col-8 menu-div-acesso">
+									<div class="menu-div-acesso-entrar">
+										<h:outputLabel
+											value="Olá #{templateController.acesso.usuarioLogado.nome}" />
+									</div>
+									<div class="menu-div-acesso-cadastrar">
+										<h:outputLabel value="Minha Conta " />
+									</div>
+								</div>
+
 								<ul>
-									<li><h:commandLink action="/usuario/perfilUsuario.xhtml?faces-redirect=true">Meu espaço</h:commandLink></li>
-									<li><h:commandLink action="/usuario/historico.xhtml?faces-redirect=true">Meus pedidos</h:commandLink></li>
-									<li><h:commandLink action="#{templateController.encerrarSessao}">Sair</h:commandLink></li>
-
+									<li><h:commandLink value="Meu Perfil"
+											action="/usuario/perfilUsuario.xhtml?faces-redirect=true" /></li>
+									<li><h:commandLink value="Meus Pedidos"
+											action="/usuario/historico.xhtml?faces-redirect=true" /></li>
+									<li><h:commandLink value="Sair"
+											action="#{templateController.encerrarSessao}" /></li>
 								</ul>
-							</li>
-						</ul>
-					</nav>
-				</h:form>
+							</div>
+
+						</h:form>
+					</div>
+
+				</ui:insert>
+				<ui:insert name="carrinho">
+					<div class="col-1 ">
+						<h:form styleClass="col-12" style="padding: 0;">
+							<h:commandLink styleClass="col-12"
+								action="/carrinho.xhtml?faces-redirect=true">
+								<h:outputText
+									style="margin-right: -25px; color: #fcca00; font-weight: bolder;"
+									value="#{templateController.qtdCarrinho}" />
+								<h:graphicImage width="35px;" style="padding-top: 6px;"
+									url="/resources/img/icon-novo-car.png" />
+							</h:commandLink>
+						</h:form>
+					</div>
+				</ui:insert>
 			</div>
-		</div>
-		<div class="box menu">
+		</ui:insert>
+			<ui:insert name="sidebar">
+			<div class="col-3 menu">
 			<ui:insert name="menu">
-				<h1>Menu</h1>
-				<h:form rendered="#{templateController.adm}">
-					<h:commandLink value="Cadastrar Usuario"
-						action="/adm/usuario.xhtml?faces-redirect=true" />
-					<br />
-					<h:commandLink value="Consultar Usuario"
-						action="/adm/consultaUsuario.xhtml?faces-redirect=true" />
-					<br />
-					<h:commandLink value="Cadastrar Produto"
-						action="/funcionario/produto.xhtml?faces-redirect=true" />
-					<br />
-					<h:commandLink value="Consultar Produto"
-						action="/funcionario/consultaProduto.xhtml?faces-redirect=true" />
-					<br />
-					<h:commandLink value="Cadastrar Categoria"
-						action="/funcionario/categoria.xhtml?faces-redirect=true" />
-					<br />
-					<h:commandLink value="Consultar Categoria"
-						action="/funcionario/consultaCategoria.xhtml?faces-redirect=true" />
+
+				<h:form styleClass=""
+					rendered="#{templateController.acesso.adm}">
+					<div class="col-12">
+						<h1>Menu</h1>
+					</div>
+					<hr />
+					<div>
+						<h:commandLink class="col12"  value="Cadastrar Usuario"
+							action="/adm/usuario.xhtml?faces-redirect=true"
+							styleClass="col-12" style="height:50px;" />
+					</div>
+					<hr />
+					<div>
+						<h:commandLink value="Cadastrar Produto"
+							action="/funcionario/produto.xhtml?faces-redirect=true"
+							styleClass="col-12" style="height:50px;" />
+					</div>
+					<hr />
+					<div>
+						<h:commandLink value="Cadastrar Categoria"
+							action="/funcionario/categoria.xhtml?faces-redirect=true"
+							styleClass="col-12" style="height:50px;" />
+					</div>
+					<hr />
+					<div>
+						<h:commandLink value="Consultar Usuario"
+							action="/adm/consultaUsuario.xhtml?faces-redirect=true"
+							styleClass="col-12" style="height:50px;" />
+					</div>
+					<hr />
+					<div>
+						<h:commandLink value="Consultar Produto"
+							action="/funcionario/consultaProduto.xhtml?faces-redirect=true"
+							styleClass="col-12" style="height:50px;" />
+					</div>
+					<hr />
+					<div>
+						<h:commandLink value="Consultar Categoria"
+							action="/funcionario/consultaCategoria.xhtml?faces-redirect=true"
+							styleClass="col-12" style="height:50px;" />
+					</div>
 
 				</h:form>
-				<h:form rendered="#{templateController.func}">
-					<h:commandLink value="Cadastrar Produto"
-						action="/funcionario/produto.xhtml?faces-redirect=true" />
-					<br />
-					<h:commandLink value="Consultar Produto"
-						action="/funcionario/consultaProduto.xhtml?faces-redirect=true" />
-					<br />
-					<h:commandLink value="Cadastrar Categoria"
-						action="/funcionario/categoria.xhtml?faces-redirect=true" />
-					<br />
-					<h:commandLink value="Consultar Categoria"
-						action="/funcionario/consultaCategoria.xhtml?faces-redirect=true" />
-				</h:form>
-				<h:form rendered="#{templateController.usu}">
-					<ul>
-						<ui:repeat value="#{templateController.listaCategoria}" var="obj">
-							<h:commandLink>
-								<li><h:outputText value="#{obj.categoria}" /></li>
-							</h:commandLink>
-						</ui:repeat>
-					</ul>
+				<h:form rendered="#{templateController.acesso.func}">
+					<div>
+						<h1>Menu</h1>
+					</div>
+					<hr />
+					<div>
+						<h:commandLink value="Cadastrar Produto"
+							action="/funcionario/produto.xhtml?faces-redirect=true"
+							styleClass="col-12" style="height:50px;" />
+					</div>
+					<hr />
+					<div>
+						<h:commandLink value="Cadastrar Categoria"
+							action="/funcionario/categoria.xhtml?faces-redirect=true"
+							styleClass="col-12" style="height:50px;" />
+					</div>
+					<hr />
+					<div>
+						<h:commandLink value="Consultar Produto"
+							action="/funcionario/consultaProduto.xhtml?faces-redirect=true"
+							styleClass="col-12" style="height:50px;" />
+					</div>
+					<hr />
+					<div>
+						<h:commandLink value="Consultar Categoria"
+							action="/funcionario/consultaCategoria.xhtml?faces-redirect=true"
+							styleClass="col-12" style="height:50px;" />
+					</div>
 
 				</h:form>
-				<h:form rendered="#{templateController.usuarioLogado == null}">
-					<ul>
-						<ui:repeat value="#{templateController.listaCategoria}" var="obj">
-							<h:commandLink>
-								<li><h:outputText value="#{obj.categoria}" /></li>
-							</h:commandLink>
-						</ui:repeat>
-					</ul>
+				<!-- 				<h:form rendered="#{templateController.acesso.usu}"> -->
+				<!-- 					<ul> -->
+				<!-- 						<ui:repeat value="#{templateController.listaCategoria}" var="obj"> -->
+				<!-- 							<h:commandLink> -->
+				<!-- 								<li><h:outputText value="#{obj.categoria}" /></li> -->
+				<!-- 							</h:commandLink> -->
+				<!-- 						</ui:repeat> -->
+				<!-- 					</ul> -->
 
-				</h:form>
+				<!-- 				</h:form> -->
+				<!-- 				<h:form -->
+				<!-- 					rendered="#{templateController.acesso.usuarioLogado == null}"> -->
+				<!-- 					<ul> -->
+				<!-- 						<ui:repeat value="#{templateController.listaCategoria}" var="obj"> -->
+				<!-- 							<h:commandLink> -->
+				<!-- 								<li><h:outputText value="#{obj.categoria}" /></li> -->
+				<!-- 							</h:commandLink> -->
+				<!-- 						</ui:repeat> -->
+				<!-- 					</ul> -->
+
+				<!-- 				</h:form> -->
+
 			</ui:insert>
 		</div>
-		<div class="box content">
-			<br />
+		</ui:insert>
+		<div class="col-9 conteudo">
 			<ui:insert name="conteudo">
+				<br />
+
 				<div align="center">
 					<h1>Se isso está aparecendo, algo de errado não está certo.</h1>
 				</div>
 			</ui:insert>
 		</div>
-		<div class="box footer" style="text-align: center;">
-			<h:outputText
-				value="2020 - patrolas.net - Todos os direitos reservados." />
-		</div>
-	</div>
-	<script>
-		function setTrue() {
 
-		}
-	</script>
+	</div>
 </h:body>
 </html>

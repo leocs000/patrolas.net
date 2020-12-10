@@ -4,95 +4,104 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:jsf="http://xmlns.jcp.org/jsf">
-	
+
 <ui:composition template="../template.xhtml">
 
-<ui:define name="conteudo">
+	<ui:define name="conteudo">
 
-	<h:messages 
-		errorStyle="color:red" 
-		warnStyle="color:orange" 
-		infoStyle="color:green"
-		globalOnly="false"/>
-		
-	<!-- Container -->
-	<div class="container-fluid">
-		<div class="row justify-content-md-center">
-			<div class="col-md-6 col-md-auto login-box">		
-	 			<h:messages styleClass="alert alert-danger hmessages"  />
-				<div class="form-row">
-				 	<div class="form-group col-md-10">
-				 		<h1 class="text-center wdi-red">Consulta de Usuário</h1>
-				    </div>
-				    <div class="form-group col-md-2">
-				    	<h:form>
-					    	<h:commandButton value="+ Usuario"
-						     	class="btn btn-success"
-								actionListener="#{consultaUsuarioController.novoUsuario}" />
-						</h:form>
-				    </div>
-				</div>		
-				
-				<hr />
-				<h:form>
+		<h:messages errorStyle="color:red" warnStyle="color:orange"
+			infoStyle="color:green" globalOnly="false" />
+
+		<!-- Container -->
+		<div class="container-fluid">
+			<div class="row justify-content-md-center"
+				style="background: white; margin-left: 0.4%;">
+				<div class="col-md-6 col-md-auto login-box">
+					<h:messages styleClass="alert alert-danger hmessages" />
 					<div class="form-row">
-					 	<div class="form-group col-md-4">
-					 		
-					      	<h:selectOneMenu styleClass="form-control" 
-								value="#{consultaUsuarioController.tipoFiltro}">
-							   <f:selectItem itemValue="1" itemLabel="Nome" />
-							   <f:selectItem itemValue="2" itemLabel="CPF" />                   
-							</h:selectOneMenu>
-					    </div>
-					    <div class="form-group col-md-6">
-					     	<input type="text" class="form-control" 
-					     		placeholder="Informe o filtro ..."
-								jsf:value="#{consultaUsuarioController.filtro}" />
-					    	
-					    </div>
-					    
-					    <div class="form-group col-md-2">
-					      <h:commandButton value="Pesquisar"
-					     		class="btn btn-primary"
-								actionListener="#{consultaUsuarioController.pesquisar}" />
-					    </div>
-					    
-						
+						<div class="form-group col-md-10">
+							<h1 class="text-center wdi-red">Consulta de Usuário</h1>
+						</div>
+						<div class="form-group col-md-2">
+							<h:form>
+								<h:commandButton value="+ Usuario" class="btn btn-success"
+									actionListener="#{consultaUsuarioController.novoUsuario}" />
+							</h:form>
+						</div>
 					</div>
+
+					<hr />
+					<h:form>
+						<div class="form-row">
+							<div class="form-group col-md-4">
+
+								<h:selectOneMenu styleClass="form-control"
+									value="#{consultaUsuarioController.tipoFiltro}">
+									<f:selectItem itemValue="1" itemLabel="Nome" />
+									<f:selectItem itemValue="2" itemLabel="CPF" />
+								</h:selectOneMenu>
+							</div>
+							<div class="form-group col-md-6">
+								<input type="text" class="form-control"
+									placeholder="Informe o filtro ..."
+									jsf:value="#{consultaUsuarioController.filtro}" />
+
+							</div>
+
+							<div class="form-group col-md-2">
+								<h:commandButton value="Pesquisar" class="btn btn-primary"
+									actionListener="#{consultaUsuarioController.pesquisar}" />
+							</div>
+
+
+						</div>
+					</h:form>
+				</div>
+				<h:form styleClass="col-12" id="formDataTable">
+					<h:dataTable styleClass="col-12" id="dataTable"
+						class="table table-striped table-hover"
+						value="#{consultaUsuarioController.listaUsuario}" var="obj">
+
+						<h:column>
+							<f:facet name="header">Nome</f:facet>
+							<h:outputLabel value="#{obj.nome}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">Email</f:facet>
+							<h:outputLabel value="#{obj.email}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">CPF</f:facet>
+							<h:outputLabel value="#{obj.cpf}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">Telefone</f:facet>
+							<h:outputLabel value="(#{obj.telefone.codigoArea})" />
+							<h:outputLabel value="#{obj.telefone.numero}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">Data de Nascimento</f:facet>
+							<h:outputLabel value="#{obj.dataNascimento}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">Sexo</f:facet>
+							<h:outputLabel value="#{obj.sexo}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">Perfil</f:facet>
+							<h:outputLabel value="#{obj.perfil}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">Ação</f:facet>
+							<h:commandLink value="Editar"
+								action="#{consultaUsuarioController.editar(obj)}" />
+						</h:column>
+					</h:dataTable>
 				</h:form>
-					<h:form id="formDataTable">
-							<h:dataTable id="dataTable" 
-										class="table table-striped table-hover"
-										value="#{consultaUsuarioController.listaUsuario}" 
-									 	var="obj">
-				
-							   <h:column >
-							      <f:facet name="header">Nome</f:facet>
-							      <h:outputLabel value="#{obj.nome}"/>
-							   </h:column>
-							   <h:column >
-							      <f:facet name="header">Email</f:facet>
-							      <h:outputLabel value="#{obj.email}"/>
-							   </h:column>
-							   <h:column>
-							      <f:facet name="header">CPF</f:facet>
-							      <h:outputLabel value="#{obj.cpf}"/>
-							   </h:column>
-							   <h:column>
-							      <f:facet name="header">Perfil</f:facet>
-							      <h:outputLabel value="#{obj.perfil}"/>
-							   </h:column>
-							   <h:column>
-							      <f:facet name="header">Ação</f:facet>
-							      <h:commandLink value="Editar" 
-							      		action="#{consultaUsuarioController.editar(obj)}"/>
-							   </h:column>		   
-						</h:dataTable>
-				</h:form>
+
 			</div>
 		</div>
-	</div>
 
-</ui:define>	
+	</ui:define>
 </ui:composition>
 </html>

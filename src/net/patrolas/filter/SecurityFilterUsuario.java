@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 import net.patrolas.model.Perfil;
 import net.patrolas.model.Usuario;
 
-@WebFilter( filterName = "SecurityFilterFuncionario", urlPatterns = {"/faces/usuario/*"})
+@WebFilter( filterName = "SecurityFilterUsuario", urlPatterns = {"/faces/usuario/*"})
 public class SecurityFilterUsuario implements Filter {
 
 	@Override
@@ -28,9 +28,6 @@ public class SecurityFilterUsuario implements Filter {
 //		return;
 
 		HttpServletRequest servletRequest = (HttpServletRequest) request;
-		// imprime o endereco da pagina
-		String endereco = servletRequest.getRequestURI();
-		System.out.println(endereco);
 
 		// retorna a sessao corrente (false - para nao criar uma nova sessao)
 		HttpSession session = servletRequest.getSession(false);
@@ -61,7 +58,6 @@ public class SecurityFilterUsuario implements Filter {
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		Filter.super.init(filterConfig);
-		System.out.println("Security Filter Funcionando.");
 	}
 
 }

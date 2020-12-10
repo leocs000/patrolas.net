@@ -10,6 +10,7 @@ import javax.inject.Named;
 import net.patrolas.dao.UsuarioDAO;
 import net.patrolas.model.Perfil;
 import net.patrolas.model.Sexo;
+import net.patrolas.model.Telefone;
 import net.patrolas.model.Usuario;
 
 @Named

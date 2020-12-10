@@ -5,12 +5,14 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.patrolas.application.Util;
 import net.patrolas.model.Perfil;
 import net.patrolas.model.Sexo;
+import net.patrolas.model.Telefone;
 import net.patrolas.model.Usuario;
 
 public class UsuarioDAO implements DAO<Usuario> {
@@ -29,11 +31,12 @@ public class UsuarioDAO implements DAO<Usuario> {
 		PreparedStatement stat = null;
 
 		try {
-			stat = conn.prepareStatement(sql.toString());
+			// Este statement retorna a chave primaria gerada pelo banco de dados
+			stat = conn.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 			stat.setString(1, obj.getNome());
 			stat.setString(2, obj.getCpf());
 			stat.setString(3, obj.getEmail());
-			stat.setString(4, obj.getSenha());
+			stat.setString(4, Util.hash(obj.getEmail() + obj.getSenha()));
 			// ternario java
 			stat.setObject(5, (obj.getSexo() == null ? null : obj.getSexo().getId()));
 			stat.setObject(6, (obj.getPerfil() == null ? null : obj.getPerfil().getId()));
@@ -44,8 +47,22 @@ public class UsuarioDAO implements DAO<Usuario> {
 				stat.setDate(7, null);
 
 			stat.execute();
+
 			// efetivando a transacao
 			conn.commit();
+
+			// obter a chave primaria gerada pelo banco de dados
+			ResultSet rs = stat.getGeneratedKeys();
+
+			if (rs.next()) {
+				obj.setId(rs.getInt("id"));
+				TelefoneDAO dao = new TelefoneDAO();
+				Telefone telefone = new Telefone();
+				telefone = obj.getTelefone();
+				telefone.setId(obj.getId());
+
+				dao.inserir(telefone);
+			}
 
 		} catch (SQLException e) {
 			System.out.println("Erro ao realizar o comando sql insert.");
@@ -79,6 +96,64 @@ public class UsuarioDAO implements DAO<Usuario> {
 		if (exception != null)
 			throw exception;
 	}
+	public void inserirUsuario(Usuario obj) throws Exception {
+		Exception exception = null;
+		Connection conn = DAO.getConnection();
+		
+		StringBuffer sql = new StringBuffer();
+		sql.append("INSERT INTO ");
+		sql.append("usuario ");
+		sql.append("  (nome, cpf, email, senha, perfil) ");
+		sql.append("VALUES ");
+		sql.append("  ( ?, ?, ?, ?, ?) ");
+		PreparedStatement stat = null;
+		
+		try {
+			
+			stat = conn.prepareStatement(sql.toString());
+			stat.setString(1, obj.getNome());
+			stat.setString(2, obj.getCpf());
+			stat.setString(3, obj.getEmail());
+			stat.setString(4, Util.hash(obj.getEmail() + obj.getSenha()));
+			stat.setObject(5, (obj.getPerfil() == null ? null : obj.getPerfil().getId()));
+			
+			stat.execute();
+			
+			// efetivando a transacao
+			conn.commit();
+			
+		} catch (SQLException e) {
+			System.out.println("Erro ao realizar o comando sql insert.");
+			e.printStackTrace();
+			
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				System.out.println("Erro ao realizar o rollback.");
+				e1.printStackTrace();
+			}
+			exception = new Exception("Erro ao inserir");
+		} finally {
+			try {
+				if (!stat.isClosed())
+					stat.close();
+			} catch (SQLException e) {
+				System.out.println("Erro ao fechar o Statement");
+				e.printStackTrace();
+			}
+			
+			try {
+				if (!conn.isClosed())
+					conn.close();
+			} catch (SQLException e) {
+				System.out.println("Erro a o fechar a conexao com o banco.");
+				e.printStackTrace();
+			}
+		}
+		
+		if (exception != null)
+			throw exception;
+	}
 
 	@Override
 	public void alterar(Usuario obj) throws Exception {
@@ -104,7 +179,7 @@ public class UsuarioDAO implements DAO<Usuario> {
 			stat.setString(1, obj.getNome());
 			stat.setString(2, obj.getCpf());
 			stat.setString(3, obj.getEmail());
-			stat.setString(4, obj.getSenha());
+			stat.setString(4, Util.hash(obj.getEmail() + obj.getSenha()));
 			// ternario java
 			stat.setObject(5, (obj.getSexo() == null ? null : obj.getSexo().getId()));
 			stat.setObject(6, (obj.getPerfil() == null ? null : obj.getPerfil().getId()));
@@ -115,6 +190,15 @@ public class UsuarioDAO implements DAO<Usuario> {
 			stat.execute();
 			// efetivando a transacao
 			conn.commit();
+
+
+				TelefoneDAO dao = new TelefoneDAO();
+				Telefone telefone = new Telefone();
+				telefone = obj.getTelefone();
+				telefone.setId(obj.getId());
+
+				dao.alterar(telefone);
+			
 
 		} catch (SQLException e) {
 
@@ -164,8 +248,15 @@ public class UsuarioDAO implements DAO<Usuario> {
 		try {
 			stat = conn.prepareStatement(sql.toString());
 			stat.setInt(1, obj.getId());
+			
+			TelefoneDAO dao = new TelefoneDAO();
+			Telefone telefone = new Telefone();
+			telefone = obj.getTelefone();
+			telefone.setId(obj.getId());
+			
+			dao.excluir(telefone);
 			stat.execute();
-			// efetivando a transacao
+			
 			conn.commit();
 
 		} catch (SQLException e) {
@@ -208,6 +299,7 @@ public class UsuarioDAO implements DAO<Usuario> {
 		Exception exception = null;
 		Connection conn = DAO.getConnection();
 		List<Usuario> listaUsuario = new ArrayList<Usuario>();
+		
 
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT ");
@@ -231,6 +323,8 @@ public class UsuarioDAO implements DAO<Usuario> {
 			ResultSet rs = stat.executeQuery();
 
 			while (rs.next()) {
+				TelefoneDAO dao = new TelefoneDAO();
+				Telefone telefone = new Telefone();
 				Usuario usuario = new Usuario();
 				usuario.setId(rs.getInt("id"));
 				Date data = rs.getDate("data_nascimento");
@@ -241,6 +335,8 @@ public class UsuarioDAO implements DAO<Usuario> {
 				usuario.setCpf(rs.getString("cpf"));
 				usuario.setEmail(rs.getString("email"));
 				usuario.setSenha(rs.getString("senha"));
+				telefone.setId(usuario.getId()); 
+				usuario.setTelefone(dao.obterUm(telefone));
 
 				listaUsuario.add(usuario);
 			}
@@ -292,7 +388,8 @@ public class UsuarioDAO implements DAO<Usuario> {
 		sql.append("  u.senha ");
 		sql.append("FROM  ");
 		sql.append("  usuario u ");
-		sql.append("WHERE u.id = ? ");
+		sql.append("WHERE ");
+		sql.append(" u.id = ? ");
 
 		PreparedStatement stat = null;
 		try {
@@ -303,6 +400,8 @@ public class UsuarioDAO implements DAO<Usuario> {
 			ResultSet rs = stat.executeQuery();
 
 			if (rs.next()) {
+				TelefoneDAO dao = new TelefoneDAO();
+				Telefone telefone = new Telefone();
 				usuario = new Usuario();
 				usuario.setId(rs.getInt("id"));
 				Date data = rs.getDate("data_nascimento");
@@ -313,6 +412,8 @@ public class UsuarioDAO implements DAO<Usuario> {
 				usuario.setCpf(rs.getString("cpf"));
 				usuario.setEmail(rs.getString("email"));
 				usuario.setSenha(rs.getString("senha"));
+				telefone.setId(usuario.getId()); 
+				usuario.setTelefone(dao.obterUm(telefone));
 			}
 
 		} catch (SQLException e) {
@@ -363,7 +464,7 @@ public class UsuarioDAO implements DAO<Usuario> {
 		sql.append("  usuario u ");
 		sql.append("WHERE ");
 		sql.append("  u.email = ? ");
-		sql.append("  AND u.senha = ? ");
+		sql.append(" AND u.senha = ? ");
 
 		PreparedStatement stat = null;
 		try {
@@ -375,6 +476,8 @@ public class UsuarioDAO implements DAO<Usuario> {
 			ResultSet rs = stat.executeQuery();
 
 			if (rs.next()) {
+				TelefoneDAO dao = new TelefoneDAO();
+				Telefone telefone = new Telefone();
 				usuario = new Usuario();
 				usuario.setId(rs.getInt("id"));
 				Date data = rs.getDate("data_nascimento");
@@ -385,6 +488,8 @@ public class UsuarioDAO implements DAO<Usuario> {
 				usuario.setCpf(rs.getString("cpf"));
 				usuario.setEmail(rs.getString("email"));
 				usuario.setSenha(rs.getString("senha"));
+				telefone.setId(usuario.getId()); 
+				usuario.setTelefone(dao.obterUm(telefone));
 			}
 
 		} catch (SQLException e) {
@@ -447,7 +552,8 @@ public class UsuarioDAO implements DAO<Usuario> {
 			ResultSet rs = stat.executeQuery();
 
 			while (rs.next()) {
-
+				TelefoneDAO dao = new TelefoneDAO();
+				Telefone telefone = new Telefone();
 				Usuario usuario = new Usuario();
 				usuario.setId(rs.getInt("id"));
 				Date data = rs.getDate("data_nascimento");
@@ -458,6 +564,8 @@ public class UsuarioDAO implements DAO<Usuario> {
 				usuario.setCpf(rs.getString("cpf"));
 				usuario.setEmail(rs.getString("email"));
 				usuario.setSenha(rs.getString("senha"));
+				telefone.setId(usuario.getId()); 
+				usuario.setTelefone(dao.obterUm(telefone));
 
 				listaUsuario.add(usuario);
 			}

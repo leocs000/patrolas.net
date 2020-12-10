@@ -22,7 +22,7 @@ public class CadastroSimplificadoController implements Serializable{
 		UsuarioDAO dao = new UsuarioDAO();
 		try {
 			
-			dao.inserir(getUsuario());
+			dao.inserirUsuario(getUsuario());
 			Util.addInfoMessage("Cadastro realizado com sucesso.");
 			Util.redirect("login.xhtml");
 		} catch (Exception e) {

@@ -240,6 +240,65 @@ public class CategoriaDAO implements DAO<Categoria> {
 
 		return listaCategoria;
 	}
+	
+	public List<Categoria> obterTodosComFltro(String filtro) throws Exception {
+		Exception exception = null;
+		Connection conn = DAO.getConnection();
+		List<Categoria> listaCategoria = new ArrayList<Categoria>();
+		
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT ");
+		sql.append("  c.id, ");
+		sql.append("  c.categoria ");
+		sql.append("FROM  ");
+		sql.append("  categoria c ");
+		sql.append("WHERE ");
+		sql.append(" upper(c.categoria) LIKE upper( ? ) ");
+		sql.append("ORDER BY c.categoria ");
+		
+		PreparedStatement stat = null;
+		try {
+			
+			stat = conn.prepareStatement(sql.toString());
+			stat.setString(1, filtro != null ? "%" + filtro + "%" : "%");
+			
+			ResultSet rs = stat.executeQuery();
+			
+			while (rs.next()) {
+				Categoria categoria = new Categoria();
+				categoria.setId(rs.getInt("id"));
+				categoria.setCategoria(rs.getString("categoria"));
+				
+				listaCategoria.add(categoria);
+			}
+			
+		} catch (SQLException e) {
+			Util.addErrorMessage("Não foi possivel buscar os dados do produto");
+			e.printStackTrace();
+			exception = new Exception("Erro ao executar um sql em ProdutoDAO.");
+		} finally {
+			try {
+				if (!stat.isClosed())
+					stat.close();
+			} catch (SQLException e) {
+				System.out.println("Erro ao fechar o Statement");
+				e.printStackTrace();
+			}
+			
+			try {
+				if (!conn.isClosed())
+					conn.close();
+			} catch (SQLException e) {
+				System.out.println("Erro a o fechar a conexao com o banco.");
+				e.printStackTrace();
+			}
+		}
+		
+		if (exception != null)
+			throw exception;
+		
+		return listaCategoria;
+	}
 
 	@Override
 	public Categoria obterUm(Categoria obj) throws Exception {

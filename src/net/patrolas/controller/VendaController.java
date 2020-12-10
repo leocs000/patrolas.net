@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
+import javax.faces.context.Flash;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -24,6 +26,16 @@ public class VendaController implements Serializable {
 	private String filtro;
 	private List<Produto> listaProduto;
 	
+	
+	
+	public VendaController() {
+		super();
+		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
+		flash.keep("pesquisaProdutoFlash");
+		setListaProduto((List<Produto>) flash.get("pesquisaProdutoFlash"));
+
+	}
+
 	public void pesquisar() {
 		ProdutoDAO dao = new ProdutoDAO();
 		try {
@@ -57,7 +69,7 @@ public class VendaController implements Serializable {
 			// atualizando a sessao do carrinho de compras
 			Session.getInstance().setAttribute("carrinho", listaItemVenda);
 			
-			Util.addInfoMessage("O produto: " + produto.getModelo() + " foi adicionado ao carrinho.");
+			Util.addInfoMessage("O produto: " + produto.getTitulo() + " foi adicionado ao carrinho.");
 			
 		} catch (Exception e) {
 			e.printStackTrace();

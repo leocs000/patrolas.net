@@ -14,19 +14,19 @@
 
 		<!-- Container -->
 		<div class="container-fluid">
-			<div class="row justify-content-md-center">
+			<div class="row justify-content-md-center"
+				style="background: white; margin-left: 0.4%;">
 				<div class="col-md-6 col-md-auto login-box">
 					<h:messages styleClass="alert alert-danger hmessages" />
+					<div class="mb-3">
+						<h:commandButton value="Voltar" class="btn btn-primary"
+							onclick="history.go(-1); return false;" />
+					</div>
 					<div class="form-row">
 						<div class="form-group col-md-10">
 							<h1 class="text-center wdi-red">Dados Pessoais</h1>
 						</div>
-						<div class="form-group col-md-2">
-							<h:form>
-								<h:commandButton value="+ Usuario" class="btn btn-success"
-									actionListener="#{consultaUsuarioController.novoUsuario}" />
-							</h:form>
-						</div>
+
 					</div>
 
 					<hr />
@@ -37,8 +37,7 @@
 									<div>
 										<h:outputLabel value="Dados pessoais" />
 									</div>
-									<h:commandLink
-										action="#{perfilUsuarioController.editar}">
+									<h:commandLink action="#{perfilUsuarioController.editar}">
 
 										<div>
 
@@ -59,8 +58,7 @@
 									<div>
 										<h:outputLabel value="Segurança" />
 									</div>
-									<h:commandLink
-										action="#{perfilUsuarioController.editar}">
+									<h:commandLink action="#{perfilUsuarioController.editar}">
 
 										<div>
 											<h:outputLabel value="E-mail: " />

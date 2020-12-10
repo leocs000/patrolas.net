@@ -1,8 +1,17 @@
 package net.patrolas.model;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 public class Telefone {
 	private Integer id;
+	
+	@Size(min = 2, max = 3, message = "DDD inválido")
+	@NotBlank(message = "Informe o DDD")
 	private String codigoArea;
+	
+	@Size(min = 9, max = 10, message = "numero inválido")
+	@NotBlank(message = "Informe o número")
 	private String numero;
 
 	public Integer getId() {

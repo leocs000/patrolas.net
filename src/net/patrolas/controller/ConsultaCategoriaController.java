@@ -30,8 +30,8 @@ public class ConsultaCategoriaController implements Serializable{
 	public void pesquisar() {
 		CategoriaDAO dao = new CategoriaDAO();
 		try {
-			
-			setListaCategoria(dao.obterTodos());
+			System.out.println(filtro);
+			setListaCategoria(dao.obterTodosComFltro(filtro));
 		} catch (Exception e) {
 			System.out.println("Não foi possivel realizar a consulta. Tente novamente mais tarde");
 			e.printStackTrace();
